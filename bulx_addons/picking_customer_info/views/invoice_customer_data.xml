@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="account_invoice_inherit_form_view" model="ir.ui.view">
+            <field name="name">account_invoice_inherit_form_view</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+
+
+                <xpath expr="//notebook" position="inside">
+                    <page string="Address Details">
+                        <group>
+                            <group>
+                                <field name="address_type"/>
+                                <field name="building_type"/>
+                                <field name="street"/>
+                                <field name="apartment_number"/>
+                                <field name="Longitude"/>
+                                <field name="latitude"/>
+                            </group>
+                            <group>
+                                <field name="region_id"/>
+                                <field name="land_mark"/>
+                                <field name="building_number"/>
+                                <field name="villa_number"/>
+                                <field name="floor_number"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                 <xpath expr="//notebook/page[@name='other_info']/group/group/field[@name='account_id']" position="after">
+                    <field name="stock_ref"/>
+                </xpath>
+
+
+            </field>
+        </record>
+        <record id="account_invoice_bill_inherit_form_view" model="ir.ui.view">
+            <field name="name">account_invoice_bill_inherit_form_view</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+
+                 <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="stock_ref"/>
+                </xpath>
+
+
+            </field>
+        </record>
+
+
+        <template id="report_invoice_document_inherit_bulx" inherit_id="account.report_invoice_document">
+            <xpath expr="//div/h2" position="before">
+                <table style="border: 1px solid #ddd;" width="100%" text-align="center">
+                    <tr>
+                        <th style="border: 1px solid #ddd;" text-align="center">
+                            <h6>Address Type</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;" text-align="center">
+                            <h6>Building Type</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Street</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Apartment Number</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Longitude</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Latitude</h6>
+                        </th>
+
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.address_type"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.building_type"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.street"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.apartment_number"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.Longitude"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.latitude"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Region</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Land Mark</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Building Number</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Villa Number</h6>
+                        </th>
+                        <th colspan="2" style="border: 1px solid #ddd;">
+                            <h6>Floor Number</h6>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.region_id"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.land_mark"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.building_number"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.villa_number"/>
+                        </td>
+                        <td colspan="2" style="border: 1px solid #ddd;">
+                            <span t-field="o.floor_number"/>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+
+            </xpath>
+
+        </template>
+
+    </data>
+</odoo>

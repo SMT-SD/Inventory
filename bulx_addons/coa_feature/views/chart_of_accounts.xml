@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="chart_of_accounts_blux_form_view" model="ir.ui.view">
+            <field name="name">chart_of_accounts_blux_form_view</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="arabic_name"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

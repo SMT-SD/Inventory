@@ -1,0 +1,42 @@
+<odoo>
+
+    <record id="product_bundle_inherit_sale_order_form" model="ir.ui.view">
+        <field name="name">sale.order</field>
+        <field name="model">sale.order</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="order_status_in"/>
+                <field name="payment_method"/>
+                <field name="bulx_code"/>
+                <field name="bulx_id" readonly="1"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Address Details">
+                    <group>
+                        <group>
+                            <field name="address_type"/>
+                            <field name="building_type"/>
+                            <field name="street"/>
+                            <field name="apartment_number"/>
+                            <field name="Longitude"/>
+                            <field name="latitude"/>
+                        </group>
+                        <group>
+                            <field name="region_id"/>
+                            <field name="land_mark"/>
+                            <field name="building_number"/>
+                            <field name="villa_number"/>
+                            <field name="floor_number"/>
+                        </group>
+                        <group>
+                            <field name="shipping_fees"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

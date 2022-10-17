@@ -1,0 +1,97 @@
+<odoo>
+    <data>
+
+        <record id="product_ptemplate_bulx_form_view" model="ir.ui.view">
+            <field name="name">product_template_form_view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath position="after" expr="//field[@name='list_price']">
+                    <field name="retail_price"/>
+                </xpath>
+                <xpath position="after" expr="//field[@name='description']">
+                    <field name="bulx_id" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="product_prod_wafa_form_view" model="ir.ui.view">
+            <field name="name">product_prod_wafa_form_view</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/field[@name='image_medium']" position="replace">
+                    <div>
+                        <field name="image_medium" widget="image" class="oe_avatar"/>
+                        <field name="image_medium_two" widget="image" class="oe_avatar"/>
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="product_temp_wafa_form_view" model="ir.ui.view">
+            <field name="name">product_temp_wafa_form_view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/field[@name='image_medium']" position="replace">
+                    <div>
+                        <field name="image_medium" widget="image" class="oe_avatar"/>
+                        <field name="image_medium_two" widget="image" class="oe_avatar"/>
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="product_temp_bulx_kanban_view" model="ir.ui.view">
+            <field name="name">product_temp_bulx_kanban_view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//kanban/field[@name='image_small']" position="after">
+                    <field name="image_medium_two"/>
+                </xpath>
+                <xpath expr="//kanban/templates/t/div/div[@class='o_kanban_image']" position="replace">
+                    <div class="o_kanban_image">
+                        <img t-att-src="kanban_image('product.template', 'image_medium', record.id.raw_value)"
+                             alt="Product"/>
+                        <img t-att-src="kanban_image('product.template', 'image_medium_two', record.id.raw_value)"
+                             alt="Product"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        <record id="product_product_bulx_kanban_view" model="ir.ui.view">
+            <field name="name">product_product_bulx_kanban_view</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//kanban/field[@name='image_small']" position="after">
+                    <field name="image_medium_two"/>
+                </xpath>
+                <xpath expr="//kanban/templates/t/div/div[@class='o_kanban_image']" position="replace">
+                    <div class="o_kanban_image">
+                        <img t-att-src="kanban_image('product.product', 'image_medium', record.id.raw_value)"
+                             alt="Product"/>
+                        <img t-att-src="kanban_image('product.product', 'image_medium_two', record.id.raw_value)"
+                             alt="Product"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

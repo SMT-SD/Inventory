@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="main_cycling_count_form_view" model="ir.ui.view">
+            <field name="name">main_cycling_count_form_view</field>
+            <field name="model">main.cycling</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_confirm" type="object"
+                                string="Confirm" states="draft" class="btn-primary"/>
+
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+<!--                                                        <group>-->
+<!--                                                            <field name="product_id" attrs="{'readonly':[('state','!=','draft')]}"/>-->
+<!--                                                             <field name="counter" force_save="1" attrs="{'readonly':[('state','!=','draft')]}"/>-->
+<!--                                                             <field name="not_found" force_save="1" attrs="{'readonly':[('state','!=','draft')]}"/>-->
+<!--                                                        </group>-->
+                            <group>
+                                <field name="search_serial" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="location" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="date" readonly="1"/>
+
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Cycling Lines" name="cycling_lines_page">
+                                <field name="cycling_lines_main" widget="one2many_list" force_save="1">
+                                    <tree editable="bottom">
+                                        <!--                                        editable="0" create="0" delete="0"-->
+<!--                                        <field name="product_id" force_save="1"/>-->
+                                        <field name="location" force_save="1"/>
+                                        <field name="search_serial" force_save="1"/>
+                                        <field name="date" force_save="1"/>
+<!--                                        <field name="counter" force_save="1"/>-->
+<!--                                        <field name="lost_items" force_save="1"/>-->
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="main_cycling_count_tree_view" model="ir.ui.view">
+            <field name="name">main_cycling_count_tree_view</field>
+            <field name="model">main.cycling</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="search_serial"/>
+                    <field name="location"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_main_cycling_count" model="ir.actions.act_window">
+            <field name="name">Main Cycling Count</field>
+            <field name="res_model">main.cycling</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem id="menu_main_cycling_count"
+                  name="Main Cycling Count"
+                  action="action_main_cycling_count"
+                  parent="stock.menu_warehouse_report"
+                  sequence="400"
+
+        />
+    </data>
+</odoo>

@@ -1,0 +1,1225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+
+        <record id="stock_picking__blux_form_view" model="ir.ui.view">
+            <field name="name">stock_picking__blux_form_view</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='move_ids_without_package']" position="after">
+                    <group>
+                        <field name="amount_untaxed" invisible="1"/>
+                        <field name="amount_taxed" invisible="1"/>
+                        <field name="total_amount" invisible="1"/>
+                    </group>
+
+                </xpath>
+                <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="after">
+                    <field name="price_unit_move" invisible="0"/>
+                    <field name="price_subtotal_move" invisible="0"/>
+                    <field name="origin" invisible="1"/>
+                    <!--                     <field name="move_ids_without_package" attrs="{'readonly': ['|', '&amp;', ('show_operations', '=', True), '|', ('is_locked', '=', True), ('state', '=', 'done'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}" context="{'picking_type_code': picking_type_code, 'default_picking_id': id, 'form_view_ref':'stock.view_move_picking_form', 'address_in_id': partner_id, 'default_picking_type_id': picking_type_id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id}">-->
+                    <!--                                <tree decoration-danger="not parent.immediate_transfer and state != 'done' and quantity_done > reserved_availability and show_reserved_availability" decoration-muted="scrapped == True or state == 'cancel' or (state == 'done' and is_locked == True)" string="Stock Moves" editable="bottom">-->
+                    <!--                                    <field name="name" invisible="1"/>-->
+                    <!--                                    <field name="date_expected" invisible="1"/>-->
+                    <!--                                    <field name="state" invisible="1" readonly="0"/>-->
+                    <!--                                    <field name="picking_type_id" invisible="1"/>-->
+                    <!--                                    <field name="location_id" invisible="1"/>-->
+                    <!--                                    <field name="location_dest_id" invisible="1"/>-->
+                    <!--                                    <field name="scrapped" invisible="1"/>-->
+                    <!--                                    <field name="picking_code" invisible="1"/>-->
+                    <!--                                    <field name="product_type" invisible="1"/>-->
+                    <!--                                    <field name="show_details_visible" invisible="1"/>-->
+                    <!--                                    <field name="show_reserved_availability" invisible="1"/>-->
+                    <!--                                    <field name="show_operations" invisible="1" readonly="1"/>-->
+                    <!--                                    <field name="additional" invisible="1"/>-->
+                    <!--                                    <field name="has_move_lines" invisible="1"/>-->
+                    <!--                                    <field name="is_locked" invisible="1"/>-->
+                    <!--                                 -->
+                    <!--                                    <field name="product_id" required="1" attrs="{'readonly': ['|', '&amp;', ('state', '!=', 'draft'), ('additional', '=', False), ('has_move_lines', '=', True)]}"/>-->
+                    <!--                                    <field name="is_initial_demand_editable" invisible="1"/>-->
+                    <!--                                    <field name="is_quantity_done_editable" invisible="1"/>-->
+                    <!--                                    <field name="product_uom_qty" string="Initial Demand" attrs="{'column_invisible': ['&amp;',('parent.immediate_transfer', '=', True), ('parent.is_locked', '=', True)], 'readonly': [('is_initial_demand_editable', '=', False)]}"/>-->
+                    <!--                                    <field name="reserved_availability" string="Reserved" attrs="{'column_invisible': (['|','|', ('parent.state','=', 'done'), ('parent.picking_type_code', '=', 'incoming'),'&amp;',('parent.immediate_transfer', '=', True), ('parent.is_locked', '=', True)])}"/>-->
+                    <!--                                    <field name="quantity_done" string="Done" attrs="{'readonly': [('is_quantity_done_editable', '=', False)]}"/>-->
+                    <!--                                    <field name="product_uom" attrs="{'readonly': [('state', '!=', 'draft'), ('additional', '=', False)]}" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>-->
+                    <!--                                    <button name="action_show_details" string="Register lots, packs, location" type="object" icon="fa-list" attrs="{'invisible': [('show_details_visible', '=', False)]}" options='{"warn": true}'/>-->
+                    <!--                                </tree>-->
+                    <!--                            </field>-->
+
+
+                </xpath>
+                <xpath expr="//button[@name='action_assign']" position="before">
+                    <button name="compute_address_fields" type="object" class="btn-primary"
+                            string="Print Full Report Details"/>
+
+
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Address Details">
+                        <group>
+                            <group>
+                                <field name="address_type"/>
+                                <field name="building_type"/>
+                                <field name="street"/>
+                                <field name="apartment_number"/>
+                                <field name="Longitude"/>
+                                <field name="latitude"/>
+                            </group>
+                            <group>
+                                <field name="region_id"/>
+                                <field name="land_mark"/>
+                                <field name="building_number"/>
+                                <field name="villa_number"/>
+                                <field name="floor_number"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        <template id="report_quotation_inherit_sale" inherit_id="sale.report_saleorder_document">
+            <xpath expr="//t[@t-set='address']" position="replace">
+                <div>
+                    <table>
+                        <tr>
+                            <td>
+                                <h10>
+                                    <div t-if="doc.client_order_ref" class="col-auto mw-100 mb-2">
+                                        <h10>Your Reference:</h10>
+                                    </div>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <p class="m-0" t-field="doc.client_order_ref"/>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <div t-if="doc.partner_id" class="col-auto mw-100 mb-2">
+                                        <h10>Customer:</h10>
+                                    </div>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <p class="m-0" t-field="doc.partner_id"/>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <div t-if="doc.partner_id.phone" class="col-auto mw-100 mb-2">
+                                        <h10>Phone:</h10>
+                                    </div>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <p class="m-0" t-field="doc.partner_id.phone"/>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <div t-if="doc.confirmation_date and doc.state not in ['draft','sent']"
+                                         class="col-auto mw-100 mb-2">
+                                        <h10>Date Ordered:</h10>
+                                    </div>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <p class="m-0" t-field="doc.confirmation_date"/>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <div t-if="doc.date_order and doc.state in ['draft','sent']"
+                                         class="col-auto mw-100 mb-2">
+                                        <h10>Quotation Date:</h10>
+                                    </div>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <p class="m-0" t-field="doc.date_order"/>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <div t-if="doc.invoice_ids" class="col-auto mw-100 mb-2">
+                                        <h10>Invoice:</h10>
+                                    </div>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <p class="m-0" t-field="doc.invoice_ids"/>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <div t-if="doc.validity_date and doc.state in ['draft', 'sent']"
+                                         class="col-auto mw-100 mb-2">
+                                        <h10>Expiration Date:</h10>
+                                    </div>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <p class="m-0" t-field="doc.validity_date"/>
+                                </h10>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <br/>
+                <div t-field="doc.partner_id"
+                     t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'
+                     groups="picking_customer_info.show_so_origin_group"/>
+                <table style="border: 1px solid #ddd;" width="100%" text-align="center">
+                    <tr>
+                        <th style="border: 1px solid #ddd;" text-align="center">
+                            <h6>Address Type</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;" text-align="center">
+                            <h6>Building Type</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Street</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Apartment Number</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Longitude</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Latitude</h6>
+                        </th>
+
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="doc.address_type"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="doc.building_type"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="doc.street"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="doc.apartment_number"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="doc.Longitude"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="doc.latitude"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Region</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Land Mark</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Building Number</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Villa Number</h6>
+                        </th>
+                        <th colspan="2" style="border: 1px solid #ddd;">
+                            <h6>Floor Number</h6>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="doc.region_id"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="doc.land_mark"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="doc.building_number"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="doc.villa_number"/>
+                        </td>
+                        <td colspan="2" style="border: 1px solid #ddd;">
+                            <span t-field="doc.floor_number"/>
+                        </td>
+                    </tr>
+                </table>
+
+                <p t-if="doc.partner_id.vat"><t t-esc="doc.company_id.country_id.vat_label or 'Tax ID'"/>:
+                    <span t-field="doc.partner_id.vat" groups="picking_customer_info.show_so_origin_group"/>
+                </p>
+                <br/>
+                <div width="100%">
+                    <table width="100%">
+                        <tr>
+                            <td width="20%">
+                                <h7>Payment Method:</h7>
+                            </td>
+                            <td width="20%">
+                                <h7>
+                                    <span t-field="doc.payment_method" class="text-center align-middle"
+                                          style="height: 6rem;"/>
+                                </h7>
+                            </td>
+                            <td width="20%">
+                                <h7>
+                                    <span t-field="doc.name" class="text-center align-middle" style="height: 6rem;"/>
+                                </h7>
+                            </td>
+                            <td>
+                                <t t-if="doc.name">
+                                    <img alt="Barcode" t-if="len(doc.name) == 13"
+                                         t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', quote_plus(doc.name or ''), 600, 150)"
+                                         style="width:30%;height:3rem;"/>
+                                    <img alt="Lot/serial_number" t-elif="len(doc.name) == 8"
+                                         t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN8', quote_plus(doc.name or ''), 600, 150)"
+                                         style="width:30%;height:3rem;"/>
+                                    <img alt="Lot/serial_number" t-else=""
+                                         t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', quote_plus(doc.name or ''), 600, 150)"
+                                         style="width:30%;height:3rem"/>
+                                    <br/>
+
+                                </t>
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+            </xpath>
+            <xpath expr="//div[@class='page']/h2" position="attributes">
+                <attribute name="groups">picking_customer_info.show_so_origin_group</attribute>
+                <!--                <h10>-->
+                <!--                    <t t-if="not (env.context.get('proforma', False) or is_pro_forma)">-->
+                <!--                        <span t-if="doc.state not in ['draft','sent']">Order #</span>-->
+                <!--                        <span t-if="doc.state in ['draft','sent']">Quotation #</span>-->
+                <!--                    </t>-->
+                <!--                    <t t-if="env.context.get('proforma', False) or is_pro_forma">-->
+                <!--                        <span>Pro-Forma Invoice #</span>-->
+                <!--                    </t>-->
+                <!--                    <span t-field="doc.name"/>-->
+                <!--                </h10>-->
+            </xpath>
+            <xpath expr="//div[@class='page']/div[@id='informations']" position="replace">
+                <div id="informations" groups="picking_customer_info.show_so_origin_group">
+                    <table>
+                        <tr>
+                            <td>
+                                <h10>
+                                    <div t-if="doc.client_order_ref" class="col-auto mw-100 mb-2">
+                                        <h10>Your Reference:</h10>
+                                    </div>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <p class="m-0" t-field="doc.client_order_ref"/>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <div t-if="doc.partner_id" class="col-auto mw-100 mb-2">
+                                        <h10>Customer:</h10>
+                                    </div>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <p class="m-0" t-field="doc.partner_id"/>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <div t-if="doc.partner_id.phone" class="col-auto mw-100 mb-2">
+                                        <h10>Phone:</h10>
+                                    </div>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <p class="m-0" t-field="doc.partner_id.phone"/>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <div t-if="doc.confirmation_date and doc.state not in ['draft','sent']"
+                                         class="col-auto mw-100 mb-2">
+                                        <h10>Date Ordered:</h10>
+                                    </div>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <p class="m-0" t-field="doc.confirmation_date"/>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <div t-if="doc.date_order and doc.state in ['draft','sent']"
+                                         class="col-auto mw-100 mb-2">
+                                        <h10>Quotation Date:</h10>
+                                    </div>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <p class="m-0" t-field="doc.date_order"/>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <div t-if="doc.invoice_ids" class="col-auto mw-100 mb-2">
+                                        <h10>Invoice:</h10>
+                                    </div>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <p class="m-0" t-field="doc.invoice_ids"/>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <div t-if="doc.validity_date and doc.state in ['draft', 'sent']"
+                                         class="col-auto mw-100 mb-2">
+                                        <h10>Expiration Date:</h10>
+                                    </div>
+                                </h10>
+                            </td>
+                            <td>
+                                <h10>
+                                    <p class="m-0" t-field="doc.validity_date"/>
+                                </h10>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </xpath>
+
+            <!--            <xpath expr="//th[@name='th_description'] " position="after">-->
+            <!--                <th name="th_brand" class="text-left">Brand</th>-->
+            <!--                &lt;!&ndash;                <th name="th_categ" class="text-left">Category</th>&ndash;&gt;-->
+
+            <!--            </xpath>-->
+            <xpath expr="//th[@name='th_taxes'] " position="replace">
+                <th name="th_taxes" invisible="1" class="text-right" groups="picking_customer_info.show_tax_group">
+                    Taxes
+                </th>
+                <!--                <th name="th_categ" class="text-left">Category</th>-->
+
+            </xpath>
+            <!--            <xpath expr="//td[@name='td_name'] " position="after">-->
+            <!--                <td name="td_brand" class="text-right">-->
+            <!--                    <span t-field="line.product_id.product_brand_id"/>-->
+            <!--                </td>-->
+            <!--            </xpath>-->
+            <xpath expr="//td[@name='td_name']/span " position="replace">
+
+                <span t-field="line.product_id.name"/>
+
+            </xpath>
+            <xpath expr="//td[@name='td_taxes'] " position="replace">
+                <td name="td_taxes" invisible="1" class="text-right" groups="picking_customer_info.show_tax_group">
+                    <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))" invisible="1"
+                          groups="picking_customer_info.show_tax_group"/>
+
+                </td>
+
+                <!--                <td name="td_qateg_id" class="text-right">-->
+                <!--                    <span t-field="line.product_id.categ_id"/>-->
+                <!--                </td>-->
+
+
+            </xpath>
+
+        </template>
+        <template id="reportstock_picking_deliverysale" inherit_id="stock.report_delivery_document">
+            <xpath expr="//table[1]/thead/tr/th[@name='td_sched_date_h']" position="before">
+                <th width="30%">
+                    <strong>Code</strong>
+                </th>
+                <th>
+                    <strong>Payment Method</strong>
+                </th>
+            </xpath>
+            <xpath expr="//table[1]/tbody/tr/td[1]" position="after">
+                <td class="text-center align-middle" style="height: 6rem;" width="30%">
+                    <img alt="Barcode" t-if="len(o.origin) == 13"
+                         t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', quote_plus(o.origin or ''), 600, 150)"
+                         style="width:100%;height:4rem;"/>
+                    <img alt="Lot/serial_number" t-elif="len(o.origin) == 8"
+                         t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN8', quote_plus(o.origin or ''), 600, 150)"
+                         style="width:100%;height:4rem;"/>
+                    <img alt="Lot/serial_number" t-else=""
+                         t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', quote_plus(o.origin or ''), 600, 150)"
+                         style="width:100%;height:4rem"/>
+                </td>
+                <td>
+                    <span t-field="o.payment_method"/>
+                </td>
+            </xpath>
+            <xpath expr="//div[@class='page']" position="before">
+                <table style="border: 1px solid #ddd;" width="100%" text-align="center">
+                    <tr>
+                        <th style="border: 1px solid #ddd;" text-align="center">
+                            <h6>Address Type</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;" text-align="center">
+                            <h6>Building Type</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Street</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Apartment Number</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Longitude</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Latitude</h6>
+                        </th>
+
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.address_type"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.building_type"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.street"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.apartment_number"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.Longitude"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.latitude"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Region</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Land Mark</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Building Number</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Villa Number</h6>
+                        </th>
+                        <th colspan="2" style="border: 1px solid #ddd;">
+                            <h6>Floor Number</h6>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.region_id"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.land_mark"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.building_number"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.villa_number"/>
+                        </td>
+                        <td colspan="2" style="border: 1px solid #ddd;">
+                            <span t-field="o.floor_number"/>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <br/>
+                <br/>
+            </xpath>
+            <xpath expr="//table[2]/thead" position="replace">
+
+                <thead>
+                    <tr>
+                        <th>
+                            <strong>Product</strong>
+                        </th>
+                        <th name="lot_serial" t-if="has_serial_number" groups="stock.group_lot_on_delivery_slip">
+                            Lot/Serial Number
+                        </th>
+                        <th class="text-center">
+                            <strong>Quantity</strong>
+                        </th>
+                        <th>
+                            <strong>Price Unit</strong>
+                        </th>
+                        <th>
+                            <strong>Subtotal</strong>
+                        </th>
+                    </tr>
+                </thead>
+                <!--                <thead>-->
+                <!--                    <tr>-->
+                <!--                        <th>-->
+                <!--                            <strong>Product</strong>-->
+                <!--                        </th>-->
+                <!--                        <th>-->
+                <!--                            <strong>Quantity</strong>-->
+                <!--                        </th>-->
+                <!--                        <th>-->
+                <!--                            <strong>Price Unit</strong>-->
+                <!--                        </th>-->
+                <!--                        <th>-->
+                <!--                            <strong>Subtotal</strong>-->
+                <!--                        </th>-->
+                <!--                    </tr>-->
+                <!--                </thead>-->
+            </xpath>
+            <xpath expr="//table[2]/tbody" position="replace">
+
+                <tbody>
+                    <tr t-foreach="o.move_ids_without_package" t-as="move_line">
+                        <td>
+                            <span t-field="move_line.product_id"/>
+                            <p t-if="o.picking_type_code == 'outgoing'">
+                                <span t-field="move_line.product_id.sudo().description_pickingout"/>
+                            </p>
+                            <p t-if="o.picking_type_code == 'incoming'">
+                                <span t-field="move_line.product_id.sudo().description_pickingin"/>
+                            </p>
+                        </td>
+                        <td t-if="has_serial_number and move_line.lot_name" groups="stock.group_lot_on_delivery_slip">
+                            <span t-field="move_line.lot_name"/>
+                        </td>
+                        <td t-elif="has_serial_number" groups="stock.group_lot_on_delivery_slip">
+                            <span t-field="move_line.lot_id.name"/>
+                        </td>
+                        <td class="text-center">
+                            <!--                            <span t-field="move_line.quantity_done"/>-->
+
+                            <span t-field="move_line.product_uom_qty"/>
+                            <span t-field="move_line.product_id.uom_id"/>
+                        </td>
+                        <td>
+                            <span t-field="move_line.price_unit_move"/>
+                        </td>
+                        <td>
+                            <span t-field="move_line.price_subtotal_move"/>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </xpath>
+            <xpath expr="//table[3]" position="after">
+                <div align="right">
+                    <table>
+                        <tr>
+                            <th>Untaxed Amount</th>
+                            <td>
+                                <span t-field="o.amount_untaxed"/>
+                            </td>
+                        </tr>
+                        <!--                        <tr>-->
+                        <!--                            <th>Taxed Amount</th>-->
+                        <!--                            <td>-->
+                        <!--                                <span t-field="o.amount_taxed"/>-->
+                        <!--                            </td>-->
+                        <!--                        </tr>-->
+                        <tr>
+                            <th>Shipping Fees</th>
+                            <td>
+                                <span t-field="o.shipping_fees"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <h6>________________________</h6>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <th>Total Amount</th>
+                            <td>
+                                <span t-field="o.total_amount"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </xpath>
+            <xpath expr="//div[@class='page']/p" position="after">
+                <div class="text-center" dir="rtl" t-if="o.picking_type_id.code=='incoming'">
+                    <br/>
+                    <table width="100%">
+
+                        <tr>
+                            <th>توقيع مسئول الاستلام</th>
+                            <th>توقيع مشرف المخزن</th>
+                            <th>توقيع المحاسب</th>
+                            <th>توقيع المدير المالي</th>
+                        </tr>
+
+
+                    </table>
+                    <br/>
+                    <br/>
+                    <table width="100%">
+                        <tr>
+                            <td>
+                                <h6>
+                                    --------------------------
+                                </h6>
+                            </td>
+                            <td>
+                                <h6>
+                                    --------------------------
+                                </h6>
+                            </td>
+                            <td>
+                                <h6>
+                                    --------------------------
+                                </h6>
+                            </td>
+                            <td>
+                                <h6>
+                                    --------------------------
+                                </h6>
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+            </xpath>
+
+        </template>
+        <template id="report_quant_package_inherit_sale" inherit_id="stock.report_package_barcode">
+            <xpath expr="//t/div/table" position="replace">
+                <table style="border-bottom: 0px solid white !important;">
+                    <tr>
+                        <!--                        <td align="right">-->
+                        <!--                            <h5 t-field="o.name" class="mt0 float-left"/>-->
+                        <!--                        </td>-->
+                        <td>
+                            <p t-field="o.name" align="center"/>
+                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 100)"
+                                 alt="Barcode"
+                                 style="width:200px;height:40px"/>
+
+                        </td>
+                        <!--                        <td align="right">-->
+                        <!--                            <h5 t-field="o.origin_so" class="mt0 float-left"/>-->
+                        <!--                        </td>-->
+
+
+                        <td>
+                            <p t-field="o.origin_so" align="center"/>
+                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.origin_so, 600, 100)"
+                                 alt="Barcode"
+                                 style="width:200px;height:40px"/>
+
+                        </td>
+                        <td align="center">
+                            <h5>Payment Method</h5>
+                            <br/>
+                            <h6>
+                                <span t-field="o.payment_method" class="text-center align-middle"
+                                      style="height: 6rem;"/>
+                            </h6>
+                        </td>
+                    </tr>
+
+                </table>
+                <br/>
+                <table style="border: 1px solid #ddd;" width="100%" text-align="center">
+                    <tr>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Customer</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;" text-align="center">
+                            <h6>Address Type</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;" text-align="center">
+                            <h6>Building Type</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Street</h6>
+                        </th>
+
+
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Longitude</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Latitude</h6>
+                        </th>
+
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.partner_id"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.address_type"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.building_type"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.street"/>
+                        </td>
+
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.Longitude"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.latitude"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Region</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Land Mark</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Building Number</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Villa Number</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Floor Number</h6>
+                        </th>
+                        <th style="border: 1px solid #ddd;">
+                            <h6>Apartment Number</h6>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.region_id"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.land_mark"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.building_number"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.villa_number"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.floor_number"/>
+                        </td>
+                        <td style="border: 1px solid #ddd;">
+                            <span t-field="o.apartment_number"/>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+
+            </xpath>
+            <xpath expr="//div[@class='page']/div[4]" position="after">
+                <br/>
+                <br/>
+                <br/>
+                <div align="right">
+                    <table>
+                        <tr>
+                            <th>Untaxed Amount</th>
+                            <td>
+                                <span t-field="o.amount_untaxed"/>
+                            </td>
+                        </tr>
+                        <!--                        <tr>-->
+                        <!--                            <th>Taxed Amount</th>-->
+                        <!--                            <td>-->
+                        <!--                                <span t-field="o.amount_taxed"/>-->
+                        <!--                            </td>-->
+                        <!--                        </tr>-->
+                        <tr>
+                            <th>Shipping Fees For All Orders</th>
+                            <td>
+                                <span t-field="o.shipping_fees"/>
+                            </td>
+                        </tr>
+                        <!--                        <tr>-->
+                        <!--                            <td colspan="2">-->
+                        <!--                                <h6>________________________</h6>-->
+                        <!--                            </td>-->
+
+                        <!--                        </tr>-->
+                        <!--                        <tr>-->
+                        <!--                            <th>Total Amount</th>-->
+                        <!--                            <td>-->
+                        <!--                                <span t-field="o.total_amount"/>-->
+                        <!--                            </td>-->
+                        <!--                        </tr>-->
+                    </table>
+                </div>
+            </xpath>
+            <xpath expr="//div[@class='page']/div[4]" position="replace">
+                <div width="100%">
+                    <!--                    <div class="col-8" width="100%">-->
+                    <table width="100%" class="table table-sm" style="border-bottom: 0px solid white !important;">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th class="text-right">Quantity</th>
+                                <th class="text-right">Lot/Serial Number</th>
+                                <th class="text-right">Unit Price</th>
+                                <th class="text-right">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.quant_ids" t-as="l">
+                                <td>
+                                    <span t-field="l.product_id.name"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="l.quantity"/>
+                                    <span groups="uom.group_uom" t-field="l.product_id.uom_id.name"/>
+                                </td>
+                                <td class="text-right">
+                                    <t t-if="l.lot_id">
+                                        <span t-field="l.lot_id.name"/>
+                                    </t>
+                                </td>
+                                <td class="text-right">
+                                    <t t-if="l.price_unit_quant">
+                                        <span t-field="l.price_unit_quant"/>
+                                    </t>
+                                </td>
+                                <td class="text-right">
+                                    <t t-if="l.price_subtotal_quant">
+                                        <span t-field="l.price_subtotal_quant"/>
+                                    </t>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--                    </div>-->
+                </div>
+
+                <!--                    </tr>-->
+                <!--                </thead>-->
+            </xpath>
+
+
+        </template>
+        <template id="report_report_picking_inherit_bulx" inherit_id="stock.report_picking">
+            <!--            <xpath expr="//div[@class='page']/p[2]" position="after">-->
+            <!--                <div class="text-center" dir="rtl">-->
+
+            <!--                    <br/>-->
+            <!--                    <br/>-->
+            <!--                    <br/>-->
+            <!--                    <br/>-->
+            <!--                    <br/>-->
+            <!--                    <br/>-->
+            <!--                    <table width="100%">-->
+            <!--                        <tr>-->
+            <!--                            <th>توقيع مسئول الاستلام</th>-->
+            <!--                            <th>توقيع مشرف المخزن</th>-->
+            <!--                            <th>توقيع المحاسب</th>-->
+            <!--                            <th>توقيع المدير المالي</th>-->
+            <!--                        </tr>-->
+
+
+            <!--                    </table>-->
+            <!--                    <br/>-->
+            <!--                    <br/>-->
+            <!--                    <table width="100%">-->
+            <!--                        <tr>-->
+            <!--                            <td>-->
+            <!--                                <h6>-->
+            <!--                                    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+            <!--                                </h6>-->
+            <!--                            </td>-->
+            <!--                            <td>-->
+            <!--                                <h6>-->
+            <!--                                    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+            <!--                                </h6>-->
+            <!--                            </td>-->
+            <!--                            <td>-->
+            <!--                                <h6>-->
+            <!--                                    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+            <!--                                </h6>-->
+            <!--                            </td>-->
+            <!--                            <td>-->
+            <!--                                <h6>-->
+            <!--                                    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+            <!--                                </h6>-->
+            <!--                            </td>-->
+
+            <!--                        </tr>-->
+            <!--                    </table>-->
+            <!--                </div>-->
+            <!--            </xpath>-->
+            <xpath expr="//div[@class='page']/table[2]/thead" position="replace">
+                <!--                <th><strong>Locations Filter</strong></th>-->
+                <thead>
+                    <tr>
+                        <th>
+                            <strong>Product</strong>
+                        </th>
+                         <th>
+                    <strong>Zone</strong>
+                </th>
+                        <th>
+                            <strong>Quantity</strong>
+                        </th>
+                        <th width="20%" t-if="o.picking_type_id.code != 'incoming'" align="left">
+                            <strong>From</strong>
+                        </th>
+<!--                        <th t-if="o.picking_type_id.code != 'outgoing'">-->
+<!--                            <strong>To</strong>-->
+<!--                        </th>-->
+                        <th width="15%" class="text-center" t-if="has_serial_number">
+                            <strong>Lot/Serial Number</strong>
+                        </th>
+                        <th width="15%" class="text-center" t-if="has_barcode">
+                            <strong>
+                                Product Barcode
+                            </strong>
+                        </th>
+                    </tr>
+                </thead>
+
+            </xpath>
+            <xpath expr="//div[@class='page']/table[2]/tbody" position="replace">
+                <tbody>
+                    <t t-foreach="o.move_ids_without_package.sorted(key=lambda m: m.zone.id)" t-as="move">
+                        <t t-foreach="move.move_line_ids.sorted(key=lambda ml: ml.location_id.id)" t-as="ml">
+                            <tr>
+                                <td>
+                                    <span t-field="ml.product_id.display_name"/>
+                                    <br/>
+                                    <span t-field="ml.product_id.description_picking"/>
+                                </td>
+                                <!--                                                <td width="20%" t-if="o.is_pick== true">-->
+                                <!--                                                            <span t-field="move.filter_locations"/>-->
+                                <!--                                                </td>-->
+                                <td width="20%" t-if="o.is_pick== true">
+                                    <span t-field="move.zone"/>
+                                </td>
+                                <td>
+                                    <span t-if="o.state != 'done'" t-field="ml.product_uom_qty"/>
+                                    <span t-if="o.state == 'done'" t-field="ml.qty_done"/>
+                                    <span t-field="ml.product_uom_id" groups="uom.group_uom"/>
+
+                                </td>
+                                <td width="20%" t-if="o.picking_type_id.code != 'incoming'">
+                                    <span t-esc="ml.location_id.display_name"/>
+                                    <t t-if="ml.package_id">
+                                        <span t-field="ml.package_id"/>
+                                    </t>
+                                </td>
+                                <!--                                                <td t-if="o.picking_type_id.code != 'outgoing'">-->
+                                <!--                                                    <div>-->
+                                <!--                                                        <span t-field="ml.location_dest_id"/>-->
+                                <!--                                                        <t t-if="ml.result_package_id">-->
+                                <!--                                                            <span t-field="ml.result_package_id"/>-->
+                                <!--                                                        </t>-->
+                                <!--                                                    </div>-->
+                                <!--                                                </td>-->
+                                <td width="15%" class=" text-center h6" t-if="has_serial_number">
+                                    <img t-if="has_serial_number and (ml.lot_id or ml.lot_name)"
+                                         t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', ml.lot_id.name, 600, 100)"
+                                         style="width:100%;height:35px;" alt="Barcode"/>
+
+                                </td>
+                                <td width="15%" class="text-center" t-if="has_barcode">
+                                    <t t-if="product_barcode != move.product_id.barcode">
+                                        <span t-if="move.product_id and move.product_id.barcode">
+                                            <img t-if="len(move.product_id.barcode) == 13"
+                                                 t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', move.product_id.barcode, 600, 100)"
+                                                 style="width:100%;height:35px" alt="Barcode"/>
+                                            <img t-elif="len(move.product_id.barcode) == 8"
+                                                 t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN8', move.product_id.barcode, 600, 100)"
+                                                 style="width:100%;height:35px" alt="Barcode"/>
+                                            <img t-else=""
+                                                 t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', move.product_id.barcode, 600, 100)"
+                                                 style="width:100%;height:35px" alt="Barcode"/>
+
+                                        </span>
+                                        <t t-set="product_barcode" t-value="move.product_id.barcode"/>
+                                    </t>
+                                </td>
+                            </tr>
+                        </t>
+                    </t>
+                </tbody>
+            </xpath>
+
+        </template>
+
+        <template id="report_purchaseorder_document_inherit_bulx" inherit_id="purchase.report_purchaseorder_document">
+            <xpath expr="//div[@class='page']" position="after">
+                <div align="right" dir="rtl">
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <table width="100%" dir="rtl">
+                        <tr>
+                            <th align="right">توقيع مسئول المشتريات</th>
+                            <th align="right">توقيع الادارة المالية</th>
+                            <th align="right">يعتمد،،،،</th>
+
+                        </tr>
+
+
+                    </table>
+                </div>
+                <br/>
+                <br/>
+                <div align="left" dir="rtl">
+                    <table width="100%" dir="rtl">
+                        <tr>
+                            <td align="left">
+                                <h6>
+                                    --------------------------
+                                </h6>
+                            </td>
+                            <td align="left">
+                                <h6>
+                                    --------------------------
+                                </h6>
+                            </td>
+                            <td align="left">
+                                <h6>
+                                    --------------------------
+                                </h6>
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+            </xpath>
+        </template>
+        <template id="report_purchasequotation_document_inherit_bulx"
+                  inherit_id="purchase.report_purchasequotation_document">
+            <xpath expr="//div[@class='page']" position="after">
+                <div align="right" dir="rtl">
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <table width="100%" dir="rtl">
+                        <tr>
+                            <th align="right">توقيع مسئول المشتريات</th>
+                            <th align="right">توقيع الادارة المالية</th>
+                            <th align="right">يعتمد،،،،</th>
+
+                        </tr>
+
+
+                    </table>
+                </div>
+                <br/>
+                <br/>
+                <div align="left" dir="rtl">
+                    <table width="100%" dir="rtl">
+                        <tr>
+                            <td align="left">
+                                <h6>
+                                    --------------------------
+                                </h6>
+                            </td>
+                            <td align="left">
+                                <h6>
+                                    --------------------------
+                                </h6>
+                            </td>
+                            <td align="left">
+                                <h6>
+                                    --------------------------
+                                </h6>
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+            </xpath>
+        </template>
+        <template id="report_invoice_document_with_payments_inherit_bulx" inherit_id="account.report_invoice_document">
+            <xpath expr="//div[@class='page']" position="after">
+                <div align="right" dir="rtl">
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <table width="100%" dir="rtl">
+                        <tr>
+                            <th align="right" t-if="o.type == 'in_invoice'">توقيع مسئول المشتريات</th>
+                            <!--                            <th align="right" t-if="o.type == 'out_invoice'">توقيع مسئول المبيعات</th>-->
+                            <th align="right" t-if="o.type == 'in_invoice'">توقيع الادارة المالية</th>
+                            <th align="right" t-if="o.type == 'in_invoice'">يعتمد،،،،</th>
+                        </tr>
+
+
+                    </table>
+                </div>
+                <br/>
+                <br/>
+                <div align="left" dir="rtl" t-if="o.type == 'in_invoice'">
+                    <table width="100%" dir="rtl">
+                        <tr>
+                            <td align="left">
+                                <h6>
+                                    --------------------------
+                                </h6>
+                            </td>
+                            <!--                            <td align="left">-->
+                            <!--                                <h6>-->
+                            <!--                                    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+                            <!--                                </h6>-->
+                            <!--                            </td>-->
+                            <td align="left">
+                                <h6>
+                                    --------------------------
+                                </h6>
+                            </td>
+                            <td align="left">
+                                <h6>
+                                    --------------------------
+                                </h6>
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+            </xpath>
+            <xpath expr="//div[@id='informations']/div[4]" position="after">
+
+                <div class="col-auto mw-100 mb-2" t-if="o.stock_ref" name="stock_ref">
+                    <strong>Stock Move Reference:</strong>
+                    <p class="m-0" t-field="o.stock_ref"/>
+                </div>
+            </xpath>
+        </template>
+
+
+    </data>
+</odoo>

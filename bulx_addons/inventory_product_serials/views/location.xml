@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="stock_location_blux_inherit" model="ir.ui.view">
+            <field name="name">stock_location_blux_inherit</field>
+            <field name="model">stock.location</field>
+            <field name="priority">1000</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="arch" type="xml">
+                <field name="return_location" position="after">
+                    <field name="is_main_stock" />
+
+                </field>
+
+            </field>
+        </record>
+        <record id="view_picking_type_inherit_bulx_form" model="ir.ui.view">
+            <field name="name">view_picking_type_inherit_bulx_form</field>
+            <field name="model">stock.picking.type</field>
+            <field name="inherit_id" ref="stock.view_picking_type_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="is_pick"/>
+                     <field name="is_internal"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

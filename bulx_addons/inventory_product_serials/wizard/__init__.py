@@ -1,0 +1,1 @@
+from . import sync_all_data

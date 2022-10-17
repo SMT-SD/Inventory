@@ -1,0 +1,357 @@
+<odoo>
+    <data>
+        <!--<<<<<<< HEAD-->
+        <!--        <record id="product_prod_blux_form_view" model="ir.ui.view">-->
+        <!--            <field name="name">product_prod_blux_form_view</field>-->
+        <!--            <field name="model">product.product</field>-->
+        <!--            <field name="inherit_id" ref="product.product_normal_form_view"/>-->
+        <!--            <field name="arch" type="xml">-->
+
+        <!--                <xpath expr="//field[@name='categ_id']" position="after">-->
+        <!--                    <field name="brand" string="Brand Code"/>-->
+        <!--                    <field name="category" string="Category Code"/>-->
+        <!--                </xpath>-->
+        <!--                <xpath expr="//form/sheet/field[@name='image_medium']" position="replace">-->
+        <!--                    <div>-->
+        <!--                        <field name="image_medium" widget="image" required="1" class="oe_avatar"/>-->
+        <!--                        <field name="image_medium_two" widget="image" required="1"  class="oe_avatar"/>-->
+        <!--                    </div>-->
+        <!--                    <br/>-->
+        <!--                    <br/>-->
+        <!--                    <br/>-->
+        <!--                    <br/>-->
+        <!--                    <br/>-->
+        <!--                    <br/>-->
+        <!--                </xpath>-->
+
+        <!--            </field>-->
+        <!--        </record>-->
+        <!--        <record id="product_temp_blux_form_view" model="ir.ui.view">-->
+        <!--            <field name="name">product_temp_blux_form_view</field>-->
+        <!--            <field name="model">product.template</field>-->
+        <!--            <field name="inherit_id" ref="product.product_template_only_form_view"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath expr="//field[@name='barcode']" position="after">-->
+        <!--                    <field name="brand" string="Brand Code"/>-->
+        <!--                    <field name="category" string="Category Code"/>-->
+        <!--                </xpath>-->
+        <!--                <xpath expr="//form/sheet/field[@name='image_medium']" position="replace">-->
+        <!--                    <div>-->
+        <!--                        <field name="image_medium" widget="image" required="1"  class="oe_avatar"/>-->
+        <!--                        <field name="image_medium_two" widget="image" required="1"  class="oe_avatar"/>-->
+        <!--                    </div>-->
+        <!--                    <br/>-->
+        <!--                    <br/>-->
+        <!--                    <br/>-->
+        <!--                    <br/>-->
+        <!--                    <br/>-->
+        <!--                    <br/>-->
+        <!--                </xpath>-->
+
+        <!--            </field>-->
+        <!--        </record>-->
+        <!--        <record id="product_temp_bulx_kanban_view" model="ir.ui.view">-->
+        <!--            <field name="name">product_temp_bulx_kanban_view</field>-->
+        <!--            <field name="model">product.template</field>-->
+        <!--            <field name="inherit_id" ref="product.product_template_kanban_view"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath expr="//kanban/field[@name='image_small']" position="after">-->
+        <!--                    <field name="image_medium_two"/>-->
+        <!--                </xpath>-->
+        <!--                <xpath expr="//kanban/templates/t/div/div[@class='o_kanban_image']" position="replace">-->
+        <!--                    <div class="o_kanban_image">-->
+        <!--                        <img t-att-src="kanban_image('product.template', 'image_medium', record.id.raw_value)"-->
+        <!--                             alt="Product"/>-->
+        <!--                        <img t-att-src="kanban_image('product.template', 'image_medium_two', record.id.raw_value)"-->
+        <!--                             alt="Product"/>-->
+        <!--                    </div>-->
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+        <!--        <record id="product_product_bulx_kanban_view" model="ir.ui.view">-->
+        <!--            <field name="name">product_product_bulx_kanban_view</field>-->
+        <!--            <field name="model">product.product</field>-->
+        <!--            <field name="inherit_id" ref="product.product_kanban_view"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath expr="//kanban/field[@name='image_small']" position="after">-->
+        <!--                    <field name="image_medium_two"/>-->
+        <!--                </xpath>-->
+        <!--                <xpath expr="//kanban/templates/t/div/div[@class='o_kanban_image']" position="replace">-->
+        <!--                    <div class="o_kanban_image">-->
+        <!--                        <img t-att-src="kanban_image('product.product', 'image_medium', record.id.raw_value)"-->
+        <!--                             alt="Product"/>-->
+        <!--                        <img t-att-src="kanban_image('product.product', 'image_medium_two', record.id.raw_value)"-->
+        <!--                             alt="Product"/>-->
+        <!--                    </div>-->
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+        <!--=======-->
+        <record id="product_prod_blux_form_view" model="ir.ui.view">
+            <field name="name">product_prod_blux_form_view</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='categ_id']" position="after">
+                    <field name="brand" string="Brand Code" invisible="1"/>
+                    <field name="category" string="Category Code" invisible="1"/>
+                </xpath>
+                <!--                <xpath expr="//form/sheet/field[@name='image_medium']" position="replace">-->
+                <!--                    <div>-->
+                <!--                        <field name="image_medium" widget="image" required="1" class="oe_avatar"/>-->
+                <!--                        <field name="image_medium_two" widget="image" required="1"  class="oe_avatar"/>-->
+                <!--                    </div>-->
+                <!--                    <br/>-->
+                <!--                    <br/>-->
+                <!--                    <br/>-->
+                <!--                    <br/>-->
+                <!--                    <br/>-->
+                <!--                    <br/>-->
+                <!--                </xpath>-->
+
+            </field>
+        </record>
+        <record id="product_temp_blux_form_view" model="ir.ui.view">
+            <field name="name">product_temp_blux_form_view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='barcode']" position="after">
+                    <field name="brand" string="Brand Code" invisible="1"/>
+                    <field name="category" string="Category Code" invisible="1"/>
+                </xpath>
+                <!--                <xpath expr="//form/sheet/field[@name='image_medium']" position="replace">-->
+                <!--                    <div>-->
+                <!--                        <field name="image_medium" widget="image" required="1"  class="oe_avatar"/>-->
+                <!--                        <field name="image_medium_two" widget="image" required="1"  class="oe_avatar"/>-->
+                <!--                    </div>-->
+                <!--                    <br/>-->
+                <!--                    <br/>-->
+                <!--                    <br/>-->
+                <!--                    <br/>-->
+                <!--                    <br/>-->
+                <!--                    <br/>-->
+                <!--                </xpath>-->
+
+            </field>
+        </record>
+        <!--        <record id="product_temp_bulx_kanban_view" model="ir.ui.view">-->
+        <!--            <field name="name">product_temp_bulx_kanban_view</field>-->
+        <!--            <field name="model">product.template</field>-->
+        <!--            <field name="inherit_id" ref="product.product_template_kanban_view"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath expr="//kanban/field[@name='image_small']" position="after">-->
+        <!--                    <field name="image_medium_two"/>-->
+        <!--                </xpath>-->
+        <!--                <xpath expr="//kanban/templates/t/div/div[@class='o_kanban_image']" position="replace">-->
+        <!--                    <div class="o_kanban_image">-->
+        <!--                        <img t-att-src="kanban_image('product.template', 'image_medium', record.id.raw_value)"-->
+        <!--                             alt="Product"/>-->
+        <!--                        <img t-att-src="kanban_image('product.template', 'image_medium_two', record.id.raw_value)"-->
+        <!--                             alt="Product"/>-->
+        <!--                    </div>-->
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+        <!--        <record id="product_product_bulx_kanban_view" model="ir.ui.view">-->
+        <!--            <field name="name">product_product_bulx_kanban_view</field>-->
+        <!--            <field name="model">product.product</field>-->
+        <!--            <field name="inherit_id" ref="product.product_kanban_view"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath expr="//kanban/field[@name='image_small']" position="after">-->
+        <!--                    <field name="image_medium_two"/>-->
+        <!--                </xpath>-->
+        <!--                <xpath expr="//kanban/templates/t/div/div[@class='o_kanban_image']" position="replace">-->
+        <!--                    <div class="o_kanban_image">-->
+        <!--                        <img t-att-src="kanban_image('product.product', 'image_medium', record.id.raw_value)"-->
+        <!--                             alt="Product"/>-->
+        <!--                        <img t-att-src="kanban_image('product.product', 'image_medium_two', record.id.raw_value)"-->
+        <!--                             alt="Product"/>-->
+        <!--                    </div>-->
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+        <!--&gt;>>>>>> a092dedef1a1fff2b832d3b636e3621bfd349075-->
+        <record id="stock_move_detailed_operation_blux_form_view" model="ir.ui.view">
+            <field name="name">stock_move_detailed_operation_blux_form_view</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_stock_move_operations"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/group" position="after">
+
+                    <group>
+                        <field name="production_date"
+                               attrs="{'invisible':[('code', '!=', 'incoming')],'readonly':[('is_generated', '=',True)],'required':[('code', '=', 'incoming')]}"/>
+                        <field name="code" invisible="1"/>
+                        <field name="quantity_to_generate"
+                               attrs="{'invisible':[('code', '!=', 'incoming')],'readonly':[('is_generated', '=',True)]}"/>
+                        <field name="location_scan"
+                               attrs="{'invisible':['|',('code', '=', 'incoming'),('code', '=', 'outgoing')]}"/>
+                        <field name="dest_location_scan"
+                               attrs="{'invisible':[('is_internal', '!=',True)]}" />
+                        <field name="search_serial" attrs="{'invisible':[('code', '=', 'incoming')]}"/>
+                        <!--                        <field name="location_select" attrs="{'invisible':[('code', '=', 'incoming')]}"/>-->
+                        <field name="is_pick" invisible="1"/>
+                        <field name="is_internal" invisible="1"/>
+                        <field name="is_generated" invisible="1"/>
+                        <field name="location_source"
+                               attrs="{'invisible':['|',('code', '=', 'incoming'),'&amp;',('is_internal', '!=',True),('is_pick', '!=',True)]}"/>
+
+
+                        <field name="location_select"
+                               attrs="{'invisible':['|',('code', '!=', 'internal'),('is_pick', '=',True)]}"/>
+
+                        <!--<<<<<<< HEAD-->
+                    </group>
+                    <group>
+                        <group>
+                            <button name="generate_serial" type="object" sates="draft"
+                                    string="Generate Serials" class="btn-primary"
+                                    attrs="{'invisible':['|',('code', '!=', 'incoming'),('is_generated', '=',True)]}"
+                            />
+                            <!--                             <button name="fff" type="object"-->
+                            <!--                                    string="Filter " class="btn-primary"-->
+                            <!--                            />-->
+                        </group>
+                        <group>
+                            <button name="button_print_serials" type="object"
+                                    string="Print Serials" class="btn-primary"
+                                    attrs="{'invisible':[('code', '!=', 'incoming')]}"
+                            />
+                        </group>
+                    </group>
+                    <!--=======-->
+
+
+                    <!--&gt;>>>>>> a092dedef1a1fff2b832d3b636e3621bfd349075-->
+
+
+                </xpath>
+                <!--                <xpath expr="//field[@name='move_line_ids']" position="attributes">-->
+                <!--                    <attribute name="attrs">{'delete': ['|', ('code', '!=', 'outgoing'),('is_pick', '!=',True)]}</attribute>-->
+                <!--                </xpath>-->
+            </field>
+        </record>
+        <record id="editing_tree_blux_inherit" model="ir.ui.view">
+            <field name="name">Stock</field>
+            <field name="model">stock.move.line</field>
+            <field name="priority">1000</field>
+            <field name="inherit_id" ref="stock.view_stock_move_line_operation_tree"/>
+            <field name="arch" type="xml">
+                <field name="location_dest_id" position="after">
+                    <field name="code" invisible="1"/>
+                    <field name="is_pick" invisible="1"/>
+                    <field name="brand" invisible="1"/>
+                    <field name="category" invisible="1"/>
+                    <field name="generated_serial" force_save="1"/>
+                    <field name="production_date" invisible="1"/>
+                    <field name="exp_date"/>
+                    <field name="barcode1" invisible="1"/>
+                    <field name="barcode2" invisible="1"/>
+                    <field name="use_date" invisible="1"/>
+                    <field name="removal_date" invisible="1"/>
+                    <field name="alert_date" invisible="1"/>
+                    <field name="product_id" force_save="1"/>
+
+
+
+                </field>
+                <field name="product_uom_id" position="after">
+                     <button name="unlink"
+                            string="ASD"
+                            type="object"
+                            class="btn-secondary"
+                             attrs="{'invisible': ['|',('code', '=', 'outgoing'),('is_pick', '=',True)]}"
+                            icon="fa-trash-o"
+                    />
+<!--                    attrs="{'invisible': ['|',('code', '=', 'outgoing'),'&amp;',('is_pick', '=',True),('generated_serial', '>',0)]}"-->
+
+                </field>
+                    <xpath expr="//tree" position="attributes">
+                        <attribute name="delete">0</attribute>
+                        <attribute name="create">0</attribute>
+                    </xpath>
+
+            </field>
+        </record>
+        <record id="inherit_backorder_blux_form_view" model="ir.ui.view">
+            <field name="name">inherit_backorder_blux_form_view</field>
+            <field name="model">stock.backorder.confirmation</field>
+            <field name="inherit_id" ref="stock.view_backorder_confirmation"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/footer/button[@name='process']" position="replace">
+                    <button name="process" string="Create Backorder" type="object" class="oe_highlight"
+                            groups="stock.group_stock_manager"/>
+                </xpath>
+                <xpath expr="//form/footer/button[@name='process_cancel_backorder']" position="replace">
+                    <button name="process_cancel_backorder" string="No Backorder" type="object" class="btn-primary"
+                            groups="stock.group_stock_manager"/>
+
+                </xpath>
+
+            </field>
+        </record>
+        <record id="operations_transfer_bulx_inherit_inventory" model="ir.ui.view">
+            <field name="name">operations_transfer_bulx_inherit_inventory</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='picking_type_id']" position="after">
+                    <field name="code" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="after">
+                    <field name="image_medium" widget="image" class="oe_avatar"
+                    />
+                    <!--                    attrs="{'invisible':[('code','!=','outgoing')]}"-->
+                    <field name="image_medium_two" widget="image" class="oe_avatar"
+                    />
+                    <!--                     attrs="{'invisible':[('code','!=','incoming')]}"-->
+                    <field name="code" invisible="1"/>
+                </xpath>
+
+            </field>
+        </record>
+        <!--<<<<<<< HEAD-->
+        <!--        <record id="product_category_bulx_inherit_inventory" model="ir.ui.view">-->
+        <!--            <field name="name">product_category_bulx_inherit_inventory</field>-->
+        <!--            <field name="model">product.category</field>-->
+        <!--            <field name="inherit_id" ref="product.product_category_form_view"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath expr="//group[@name='first']" position="replace">-->
+        <!--                    <group name="first" col="2">-->
+        <!--                        <group>-->
+        <!--                            <field name="parent_id" class="oe_inline"/>-->
+        <!--                        </group>-->
+        <!--                        <group>-->
+        <!--                            <field name="category_code" string="Category Code"/>-->
+        <!--                        </group>-->
+        <!--                    </group>-->
+
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+        =======
+        <!--        <record id="product_category_bulx_inherit_inventory" model="ir.ui.view">-->
+        <!--            <field name="name">product_category_bulx_inherit_inventory</field>-->
+        <!--            <field name="model">product.category</field>-->
+        <!--            <field name="inherit_id" ref="product.product_category_form_view"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath expr="//group[@name='first']" position="replace">-->
+        <!--                    <group name="first" col="2">-->
+        <!--                        <group>-->
+        <!--                            <field name="parent_id" class="oe_inline"/>-->
+        <!--                        </group>-->
+        <!--                        <group>-->
+        <!--                            <field name="category_code" string="Category Code"/>-->
+        <!--                        </group>-->
+        <!--                    </group>-->
+
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+        <!--&gt;>>>>>> a092dedef1a1fff2b832d3b636e3621bfd349075-->
+
+
+    </data>
+</odoo>

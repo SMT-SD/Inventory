@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+                id="product_moves_analysis"
+                model="moves.analysis"
+                string="Product Moves Analysis"
+                report_type="qweb-pdf"
+                name="inventory_product_serials.product_moves_analysis_temp"
+                file="inventory_product_serials.product_moves_analysis_temp"
+        />
+        <template id="product_moves_analysis_temp">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.internal_layout">
+                        <div class="page">
+                           <style type="text/css">
+                                table.supplier {
+                                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                                border-collapse: collapse;
+                                width: 100%;
+                                text-align : center;
+                                margin :auto;
+
+                                }
+
+                                table.supplier td, table.supplier th {
+                                border: 1px solid #ddd;
+                                padding: 8px;
+                                text-align : center;
+
+                                }
+
+                                table.supplier tr:nth-child(even){background-color:
+                                #ffffff;}
+
+                                table.supplier tr:hover {background-color: #ddd;}
+
+                                table.supplier th {
+                                padding-top: 12px;
+                                padding-bottom: 12px;
+                                text-align: left;
+                                background-color: #806991 ;
+                                color: white;
+                                text-align : center;
+
+                                }
+                            </style>
+
+                            <div margin="0 auto" padding-top="0">
+                                <span width="30%" style="border: 1px solid #ddd;" align="center">
+                                    <h3>Products Moves Analysis</h3>
+                                </span>
+                            </div>
+                           <br/>
+                            <div align="right" style="text-align:right">
+                                <table width="100%" class="supplier">
+                                    <tr>
+                                        <td text-align="right">
+                                            <h4>Name:</h4>
+                                        </td>
+                                        <td>
+                                            <h4>
+                                                <field t-field="o.name"/>
+                                            </h4>
+                                        </td>
+                                        <td text-align="right">
+                                           <h4>Number of days:</h4>
+                                        </td>
+                                        <td>
+                                            <h4>
+                                                <field t-field="o.no_of_days"/>
+                                            </h4>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                    </tr>
+                                    <tr>
+                                        <td text-align="right">
+                                            <h4>Desired Date:</h4>
+                                        </td>
+                                        <td colspan="3">
+                                            <h4>
+                                                <field t-field="o.required_date"/>
+                                            </h4>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                            <br/>
+                            <div class="text-center" >
+                                <table width="100%" class="supplier">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Brand</th>
+                                            <th>Category</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach='o.product_moves_res' t-as='line'>
+                                            <td >
+                                                <h5>
+                                                    <field t-field="line.product_id.name"/>
+                                                </h5>
+                                            </td>
+                                            <td>
+                                                <h6>
+                                                     <field t-field="line.product_id.product_brand_id"/>
+                                                </h6>
+                                            </td>
+                                            <td>
+                                                <h6>
+                                                    <field t-field="line.product_id.categ_id"/>
+                                                </h6>
+                                            </td>
+<!--                                            <td>-->
+<!--                                                <h6>-->
+<!--                                                    <field t-field="line.lot_name"/>-->
+<!--                                                </h6>-->
+<!--                                            </td>-->
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
+
+
+

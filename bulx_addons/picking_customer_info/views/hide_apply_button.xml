@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="stock_immediate_transfer_bulx" model="ir.ui.view">
+            <field name="name">stock_immediate_transfer_bulx</field>
+            <field name="model">stock.immediate.transfer</field>
+            <field name="inherit_id" ref="stock.view_immediate_transfer"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='process']" position="replace">
+                    <button name="process" invisible="1" string="_Apply" type="object" class="btn-primary"/>
+
+                </xpath>
+            </field>
+        </record>
+
+        <record id="stock_quant_package_bulx" model="ir.ui.view">
+            <field name="name">stock_quant_package_bulx</field>
+            <field name="model">stock.quant.package</field>
+            <field name="inherit_id" ref="stock.view_quant_package_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='unpack']" position="after">
+                    <button name="return_so_package" string="Apply" type="object" class="btn-primary"/>
+
+                </xpath>
+                <xpath expr="//field[@name='location_id']" position="after">
+                    <field name="origin_so"/>
+                    <field name="partner_id"/>
+                    <field name="address_type"/>
+                    <field name="building_type"/>
+                </xpath>
+                <xpath expr="//field[@name='quant_ids']/tree/field[@name='quantity']" position="after">
+                    <field name="price_unit_quant" invisible="1" forec_save="1"/>
+                    <field name="price_subtotal_quant" invisible="1" forec_save="1"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

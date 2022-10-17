@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="quantsact_unreserve"> <!-- Menu + python -->
+            <field name="name">Inventory</field>
+            <field name="res_model">stock.quant</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
+        </record>
+        <menuitem
+                id="menu_stock_update_unreserve"
+                name="update reserved"
+                parent="stock.menu_stock_warehouse_mgmt"
+                action="quantsact_unreserve"
+                sequence="99"
+        />
+
+        <record id="stock_picking__blux_form_view" model="ir.ui.view">
+            <field name="name">stock_picking__blux_form_view</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='origin']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='picking_type_id']" position="after">
+                    <br/>
+                    <br/>
+                    <field name="location_scan" attrs="{'invisible':[('is_pick','=',False)]}"/>
+                    <field name="location_source" attrs="{'invisible':[('is_pick','=',False)]}"/>
+                    <field name="location_select" invisible="1" attrs="{'invisible':[('is_pick','=',False)]}"/>
+                    <field name="code" attrs="{'invisible':[('is_pick','=',False)]}"/>
+                    <field name="name" invisible="1"/>
+                    <field name="collect_products" widget="many2many_tags" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='owner_id']" position="after">
+                    <br/>
+                    <br/>
+                    <field name="search_serial" attrs="{'invisible':[('is_pick','=',False)]}"/>
+                    <field name="scanned_serials" force_save="1" widget="many2many_tags"
+                           attrs="{'invisible':[('is_pick','=',False)]}"/>
+                    <field name="scan_serial" attrs="{'invisible':[('code','!=','outgoing')]}"/>
+                    <field name="quantity_to_generate" invisible="1"/>
+                    <field name="production_date" invisible="1"/>
+                    <field name="is_pick" invisible="1"/>
+                    <field name="is_generated" invisible="1"/>
+
+
+                </xpath>
+                <xpath expr="//page/field[@name='move_ids_without_package']/tree/field[@name='product_id']"
+                       position="after">
+                     <field name="is_pick" invisible="1"/>
+                    <field name="package" />
+                    <field name="filter_locations" widget="many2many_tags" attrs="{'column_invisible':[('parent.is_pick','=',False)]}"/>
+                    <field name="zone" attrs="{'column_invisible':[('parent.is_pick','=',False)]}"/>
+                    <field name="filter_serials" widget="many2many_tags" invisible="1"/>
+
+<!--                    <field name="filter_serials" widget="many2many_tags"-->
+<!--                           attrs="{'column_visible':['|',('parent.is_pick','!=',False),('parent.code','=','outgoing')]}"/>-->
+                    <field name="scanned_quantites"
+                           attrs="{'column_visible':['|',('parent.is_pick','!=',False),('parent.code','=','outgoing')]}"/>
+
+                </xpath>
+                <xpath expr="//page/field[@name='move_ids_without_package']/tree"
+                       position="attributes">
+<!--                    <attribute name="default_order">filter_locations ASC</attribute>-->
+                     <attribute name="default_order">zone ASC</attribute>
+
+                </xpath>
+
+
+            </field>
+        </record>
+        <record id="stock_move_blux_form_view" model="ir.ui.view">
+            <field name="name">stock_move_blux_form_view</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_stock_move_operations"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="after">
+                    <group>
+                        <group>
+                            <field name="filter_locations" widget="many2many_tags" force_save="1"/>
+                        </group>
+                        <group>
+                            <field name="zone" />
+                             <field name="package" />
+                        </group>
+                        <group>
+                            <field name="returned_serials" widget="many2many_tags" force_save="1"/>
+                        </group>
+                        <group>
+                            <field name="filter_serials" widget="many2many_tags" force_save="1"/>
+                        </group>
+                    </group>
+                    <br/>
+                    <br/>
+                </xpath>
+            </field>
+        </record>
+        <record id="stock_location_blux_transfer_inherit" model="ir.ui.view">
+            <field name="name">stock_location_blux_transfer_inherit</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="arch" type="xml">
+                <field name="barcode" position="after">
+                    <field name="zone"/>
+                </field>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

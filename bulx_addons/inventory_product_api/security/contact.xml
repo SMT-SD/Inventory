@@ -1,0 +1,36 @@
+<odoo>
+    <data noupdate="0">
+
+        <record id="module_sales_policy_category" model="ir.module.category">
+            <field name="name">Sales Policy</field>
+        </record>
+
+
+        <record id="sales_policy_manager_group" model="res.groups">
+            <field name="name">Sales Policy Manager</field>
+            <field name="category_id" ref="module_sales_policy_category"/>
+        </record>
+
+        <record id="sales_policy_group" model="res.groups">
+            <field name="name">Sales Policy Group</field>
+            <field name="category_id" ref="module_sales_policy_category"/>
+        </record>
+
+        <record id="modify_pricelist_group" model="res.groups">
+            <field name="name">Update Sales Price List</field>
+            <field name="category_id" ref="module_sales_policy_category"/>
+        </record>
+
+<!--        <record id="training_general_manager_group" model="res.groups">-->
+<!--            <field name="name">Training General Manager Group</field>-->
+<!--            <field name="category_id" ref="module_training_category"/>-->
+<!--        </record>-->
+
+<!--        <record id="training_employee_responsible_group" model="res.groups">-->
+<!--            <field name="name">Training Responsible Group</field>-->
+<!--            <field name="category_id" ref="module_training_category"/>-->
+<!--        </record>-->
+
+
+    </data>
+</odoo>

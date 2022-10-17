@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+<!--         <act_window-->
+<!--        context="{'zone': name}"-->
+<!--        id="act_zone_location_open"-->
+<!--        name="Locations"-->
+<!--        res_model="stock.location"-->
+<!--        src_model="location.zone"/>-->
+        <record model="ir.actions.act_window" id="act_zone_location_open"> <!-- Used in location -->
+            <field name="context">{'search_default_zone': active_id}</field>
+            <field name="domain">[('zone', 'in', active_ids)]</field>
+            <field name="name">Locations</field>
+            <field name="res_model">stock.location</field>
+        </record>
+
+        <record id="location_zone_form_view" model="ir.ui.view">
+            <field name="name">location_zone_form_view</field>
+            <field name="model">location.zone</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+
+                            <button string="Locations"
+                                    class="oe_stat_button"
+                                    icon="fa-filter" name="%(act_zone_location_open)d" type="action"
+                                    context="{'zone': name}"
+                            />
+
+
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="description"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+
+
+                </form>
+            </field>
+        </record>
+
+
+        <record id="location_zone_tree_view" model="ir.ui.view">
+            <field name="name">location_zone_tree_view</field>
+            <field name="model">location.zone</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_location_zone" model="ir.actions.act_window">
+            <field name="name">Location Zone</field>
+            <field name="res_model">location.zone</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem id="menu_location_zone"
+                  name="Location Zone"
+                  action="action_location_zone"
+                  parent="stock.menu_warehouse_config"
+                  sequence="6"
+        />
+
+    </data>
+</odoo>

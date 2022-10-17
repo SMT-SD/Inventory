@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+return_reason_access,return_reason_access,model_return_reason,show_return_stock_group,1,1,1,1
+reason_reason_access,reason_reason_access,model_reason_reason,show_return_stock_group,1,1,1,1

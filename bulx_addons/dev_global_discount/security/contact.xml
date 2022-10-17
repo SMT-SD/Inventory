@@ -1,0 +1,11 @@
+<odoo>
+    <data noupdate="0">
+
+
+        <record id="show_disc_per_line" model="res.groups">
+            <field name="name">Show Disc Per Line</field>
+        </record>
+
+
+    </data>
+</odoo>

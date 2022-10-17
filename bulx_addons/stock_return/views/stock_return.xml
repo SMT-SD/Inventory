@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="picking_blux_form_view" model="ir.ui.view">
+            <field name="name">picking_blux_form_view</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="origin_return" attrs="{'invisible': [('is_return', '=', False)]}"/>
+                    <field name="sum_initial" invisible="1"/>
+                     <field name="is_po" invisible="1"/>
+                    <field name="is_so" invisible="1"/>
+                    <field name="hide_return" invisible="1"/>
+                     <field name="hide_credit_button" invisible="1"/>
+                </xpath>
+                <xpath expr="//page/field[@name='move_ids_without_package']/tree/field[@name='product_id']"
+                       position="after">
+                    <field name="reason" widget="many2many_tags" attrs="{'column_invisible': [('parent.is_return', '=', False)]}"/>
+                    <field name="returned_serials" widget="many2many_tags" attrs="{'column_invisible': [('parent.is_return', '=', False)]}"/>
+                    <field name="price_unit" attrs="{'column_invisible': [('parent.is_return', '=', False)]}"/>
+                    <field name="return_ratio" invisible="1"/>
+
+                </xpath>
+                <xpath expr="//button[@name='%(stock.act_stock_return_picking)d']" position="replace">
+                    <button name="%(stock.act_stock_return_picking)d" string="Return" attrs="{'invisible': ['|','|', ('state', '!=', 'done'), ('is_locked', '=', False),('hide_return', '!=', False)]}" type="action" groups="base.group_user"/>
+                </xpath>
+                 <xpath expr="//button[@name='action_toggle_is_locked']" position="after">
+                    <button name="action_inv" string="Credit Note" class="oe_highlight" attrs="{'invisible': [('hide_credit_button', '=', False)]}"  type="object" groups="base.group_user" />
+
+                </xpath>
+
+            </field>
+        </record>
+        <record id="return_wizard_blux_form_view" model="ir.ui.view">
+            <field name="name">return_wizard_blux_form_view</field>
+            <field name="model">stock.return.picking</field>
+            <field name="inherit_id" ref="stock.view_stock_return_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_return_moves']/tree/field[@name='product_id']" position="after">
+<!--                    <field name="reason" attrs="{'required': [('is_return', '!=', False)]}"/>-->
+<!--                    <field name="returned_serials"  widget="many2many_tags" readonly="1" forcesave="1"/>-->
+                </xpath>
+                <xpath expr="//field[@name='product_return_moves']/tree/field[@name='uom_id']" position="after">
+                    <field name="is_return"/>
+<!--                     <field name="product"/>-->
+                    <field name="move_id" invisible="1"/>
+<!--                    <field name="wizard_id"/>-->
+<!--                      <field name="seq"/>-->
+                </xpath>
+
+<!--                 <xpath expr="//field[@name='product_return_moves']" position="before">-->
+<!--                    <field name="picking_id" invisible="1"/>-->
+<!--                </xpath>-->
+<!--                 <xpath expr="//tree" position="attributes">-->
+<!--                        <attribute name="create">1</attribute>-->
+<!--                        <attribute name="editable">bottom</attribute>-->
+<!--                 </xpath>-->
+            </field>
+        </record>
+        <record id="purchase_order_blux_return_form_view" model="ir.ui.view">
+            <field name="name">purchase_order_blux_return_form_view</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page/field[@name='order_line']/tree/field[@name='product_qty']"
+                       position="after">
+                    <field name="returned_quantity" readonly="1"/>
+                </xpath>
+                <xpath expr="//page/field[@name='order_line']/tree/field[@name='product_uom']"
+                       position="before">
+                    <field name="sale_uom_id"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="stock_move_return_blux_form_view" model="ir.ui.view">
+            <field name="name">stock_move_return_blux_form_view</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_stock_move_operations"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="after">
+                    <group>
+                        <group>
+                            <field name="reason"  readonly="1" widget="many2many_tags" force_save="1" attrs="{'invisible': [('is_return', '=', False)]}"/>
+                        </group>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='search_serial']" position="after">
+                            <field name="reason_scan"  attrs="{'invisible': [('is_return', '=', False)]}"/>
+                    <field name="is_return" force_save="1" invisible="1" />
+                </xpath>
+            </field>
+        </record>
+         <record id="editing_tree_return_blux_inherit" model="ir.ui.view">
+            <field name="name">editing_tree_return_blux_inherit</field>
+            <field name="model">stock.move.line</field>
+            <field name="priority">1000</field>
+            <field name="inherit_id" ref="stock.view_stock_move_line_operation_tree"/>
+            <field name="arch" type="xml">
+                <field name="location_dest_id" position="after">
+                    <field name="reason" force_save="1"  attrs="{'column_invisible': [('parent.is_return', '=', False)]}"/>
+                </field>
+
+            </field>
+        </record>
+    </data>
+</odoo>

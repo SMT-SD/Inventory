@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+moves_analysis_access,moves_analysis_access,model_moves_analysis,lots_serial_group,1,1,1,1
+moves_analysis_bridge_access,moves_analysis_bridge_access,model_moves_analysis_bridge,lots_serial_group,1,1,1,1
+cycling_count_access,cycling_count_access,model_cycling_count,lots_serial_group,1,1,1,1
+cycling_lines_access,cycling_lines_access,model_cycling_lines,lots_serial_group,1,1,1,1
+cycling_filter_access,cycling_filter_access,model_cycling_filter,lots_serial_group,1,1,1,1
+cycling_update_access,cycling_filter_access,model_cycling_updates,lots_serial_group,1,1,1,1
+update_filter_access,update_filter_access,model_updates_filter,lots_serial_group,1,1,1,1
+lost_items_access,lost_items_access,model_lost_items,lots_serial_group,1,1,1,1

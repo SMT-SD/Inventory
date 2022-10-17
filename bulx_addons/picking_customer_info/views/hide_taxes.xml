@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <record id="product_prod_tax_view" model="ir.ui.view">
+            <field name="name">product_prod_tax_view</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='taxes_id']" position="attributes">
+                    <attribute name="groups">picking_customer_info.show_tax_group</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="product_temp_tax_view" model="ir.ui.view">
+            <field name="name">product_temp_tax_view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='taxes_id']" position="attributes">
+                    <attribute name="groups">picking_customer_info.show_tax_group</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="so_blux_form_view" model="ir.ui.view">
+            <field name="name">so_blux_form_view</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='tax_id']" position="replace">
+                    <field
+                            name="tax_id"
+                            widget="many2many_tags"
+                            options="{'no_create': True}"
+                            domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
+                            attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"
+                            groups="picking_customer_info.show_tax_group"
+                    />
+                </xpath>
+                <xpath expr="//notebook/page[@name='order_lines']/group/field[@name='amount_tax']" position="replace">
+                    <field name="amount_tax" widget='monetary' groups="picking_customer_info.show_tax_group"
+                           options="{'currency_field': 'currency_id'}"/>
+
+
+                </xpath>
+            </field>
+        </record>
+        <template id="report_report_invoice_document_modify" inherit_id="account.report_invoice_document">
+            <xpath expr="//th[@name='th_taxes']" position="replace">
+                <th name="th_taxes" groups="picking_customer_info.show_tax_group"
+                    t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                    <span>Taxes</span>
+                </th>
+
+            </xpath>
+            <xpath expr="//tbody/t/tr/t/td[6]" position="replace" groups="picking_customer_info.show_tax_group">
+                <td t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}"
+                    groups="picking_customer_info.show_tax_group">
+                    <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.invoice_line_tax_ids))"/>
+                </td>
+            </xpath>
+            <xpath expr="//div[@class='clearfix']/div[@id='total']/div/table/t" position="attributes">
+                <attribute name="groups">picking_customer_info.show_tax_group</attribute>
+            </xpath>
+
+
+        </template>
+        <record id="account_invoice_hh_form_view" model="ir.ui.view">
+            <field name="name">account_invoice_hh_form_view</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page/field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']"
+                       position="replace">
+                    <field name="invoice_line_tax_ids" widget="many2many_tags" options="{'no_create': True}"
+                           context="{'type':parent.type, 'tree_view_ref': 'account.account_tax_view_tree', 'search_view_ref': 'account.account_tax_view_search'}"
+                           groups="picking_customer_info.show_tax_group"
+                           domain="[('type_tax_use','=','sale'),('company_id', '=', parent.company_id)]"/>
+
+                </xpath>
+                <xpath expr="//notebook/page[1]/group/field[@name='amount_tax']" position="replace">
+                    <field name="amount_tax" groups="picking_customer_info.show_tax_group"/>
+                </xpath>
+                <xpath expr="//notebook/page[@name='other_info']/field[@name='tax_line_ids']" position="replace">
+                    <field name="tax_line_ids" groups="picking_customer_info.show_tax_group">
+                        <tree editable="bottom" string="Taxes" create="0">
+                            <field name="name"/>
+                            <!--Need invisible fields for on_change to create all necessary info -->
+                            <field name="tax_id" invisible="1"/>
+                            <field name="sequence" invisible="1"/>
+                            <field name="manual" invisible="1"/>
+                            <field name="account_id" groups="account.group_account_user"/>
+                            <field name="amount" invisible="1"/>
+                            <field name="account_analytic_id" domain="[('company_id', '=', parent.company_id)]"
+                                   groups="analytic.group_analytic_accounting"/>
+                            <field name="analytic_tag_ids" groups="analytic.group_analytic_tags" widget="many2many_tags"
+                                   options="{'color_field': 'color'}"/>
+                            <field name="amount_rounding" invisible="1"/>
+                            <field name="amount_total"/>
+                            <field name="currency_id" invisible="1" force_save="1"/>
+                        </tree>
+                    </field>
+
+
+                </xpath>
+            </field>
+        </record>
+        <record id="account_invoice_bulx_customer_tree" model="ir.ui.view">
+            <field name="name">account_invoice_bulx_customer_tree</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='amount_tax_signed']" position="replace">
+                    <field name="amount_tax_signed" string="Tax" sum="Total"
+                           groups="picking_customer_info.show_tax_group"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="account_invoice_bulx_vendor_inherit_form_view" model="ir.ui.view">
+            <field name="name">account_invoice_bulx_vendor_inherit_form_view</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <!--                 <xpath expr="//notebook/page[1]/group/group/field[@name='amount_tax']" position="replace">-->
+                <!--                    <field name="amount_tax" groups="picking_customer_info.show_tax_group"/>-->
+                <!--                </xpath>-->
+                <xpath expr="//field[@name='amount_tax']" position="attributes">
+                    <attribute name="groups">picking_customer_info.show_tax_group</attribute>
+                </xpath>
+                <xpath expr="//notebook/page/field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']"
+                       position="replace">
+                    <field name="invoice_line_tax_ids" widget="many2many_tags" options="{'no_create': True}"
+                           context="{'type':parent.type, 'tree_view_ref': 'account.account_tax_view_tree', 'search_view_ref': 'account.account_tax_view_search'}"
+                           groups="picking_customer_info.show_tax_group"
+                           domain="[('type_tax_use','=','purchase'),('company_id', '=', parent.company_id)]"/>
+
+                </xpath>
+                <xpath expr="//notebook/page/group/group" position="attributes">
+
+                    <attribute name="groups">picking_customer_info.show_tax_group</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="account_invoice_bulx_vendor_tree" model="ir.ui.view">
+            <field name="name">account_invoice_bulx_vendor_tree</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='amount_tax_signed']" position="replace">
+                    <field name="amount_tax_signed" string="Tax" sum="Total"
+                           groups="picking_customer_info.show_tax_group"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="purchase_order_inherit_form_view" model="ir.ui.view">
+            <field name="name">purchase_order_inherit_form_view</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='taxes_id']"
+                       position="replace">
+                    <field name="taxes_id" groups="picking_customer_info.show_tax_group" widget="many2many_tags"
+                           domain="[('type_tax_use','=','purchase')]"
+                           context="{'default_type_tax_use': 'purchase', 'search_view_ref': 'account.account_tax_view_search'}"
+                           options="{'no_create': True}"/>
+
+                </xpath>
+                <xpath expr="//notebook/page[1]/group/field[@name='amount_tax']" position="replace">
+                    <field name="amount_tax" groups="picking_customer_info.show_tax_group" widget="monetary"
+                           options="{'currency_field': 'currency_id'}"/>
+
+
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

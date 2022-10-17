@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <report
+                id="stock_return_bulx_report"
+                model="stock.picking"
+                string="Return Invoice"
+                report_type="qweb-pdf"
+                name="stock_return.stock_return_bulx_report_template"
+                file="stock_return.stock_return_bulx_report_template"
+        />
+        <template id="stock_return_bulx_report_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <t t-if="o.partner_id" name="partner_header">
+                            <t t-set="address">
+                                <div t-esc="o.partner_id"
+                                     t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True}'/>
+                            </t>
+                        </t>
+
+                        <div class="page">
+                            <h2>
+                                <span t-field="o.name"/>
+                            </h2>
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th t-if="o.origin">
+                                            <strong>Order</strong>
+                                        </th>
+                                        <th t-if="o.origin_return">
+                                            <strong>Order NO</strong>
+                                        </th>
+                                        <th t-if="o.origin">
+                                            <strong>Code</strong>
+                                        </th>
+                                        <!--                                        <th>-->
+                                        <!--                                            <strong>Payment Method</strong>-->
+                                        <!--                                        </th>-->
+                                        <th name="td_sched_date_h">
+                                            <strong>Date</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td t-if="o.origin">
+                                            <span t-field="o.origin"/>
+                                        </td>
+                                        <td t-if="o.origin_return">
+                                            <span t-field="o.origin_return"/>
+                                        </td>
+                                        <td class="text-center align-middle" style="height: 6rem;" width="30%">
+                                            <img alt="CODE" t-if="len(o.origin_return) == 13"
+                                                 t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', quote_plus(o.origin_return or ''), 600, 150)"
+                                                 style="width:100%;height:4rem;"/>
+                                            <img alt="CODE" t-elif="len(o.origin_return) == 8"
+                                                 t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN8', quote_plus(o.origin_return or ''), 600, 150)"
+                                                 style="width:100%;height:4rem;"/>
+                                            <img alt="CODE" t-else=""
+                                                 t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', quote_plus(o.origin_return or ''), 600, 150)"
+                                                 style="width:100%;height:4rem"/>
+                                        </td>
+                                        <!--                                        <td>-->
+                                        <!--                                            <span t-field="o.payment_method"/>-->
+                                        <!--                                        </td>-->
+                                        <td name="td_sched_date">
+                                            <t t-if="o.state == 'done'">
+                                                <span t-field="o.date_done"/>
+                                            </t>
+                                            <t t-if="o.state != 'done'">
+                                                <span t-field="o.scheduled_date"/>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-sm mt48" t-if="o.state!='done'">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <strong>Product</strong>
+                                        </th>
+                                        <th>
+                                            <strong>Quantity</strong>
+                                        </th>
+                                        <!--                                        <th>-->
+                                        <!--                                            <strong>Price Unit</strong>-->
+                                        <!--                                        </th>-->
+                                        <!--                                        <th>-->
+                                        <!--                                            <strong>Subtotal</strong>-->
+                                        <!--                                        </th>-->
+                                        <th>
+                                            <strong>Vendor Quantity</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="lines" t-value="o.move_lines.filtered(lambda x: x.product_uom_qty)"/>
+                                    <tr t-foreach="lines" t-as="move">
+                                        <td>
+                                            <span t-field="move.product_id"/>
+                                            <p t-if="o.picking_type_code == 'outgoing'">
+                                                <span t-field="move.product_id.sudo().description_pickingout"/>
+                                            </p>
+                                            <p t-if="o.picking_type_code == 'incoming'">
+                                                <span t-field="move.product_id.sudo().description_pickingin"/>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <span t-field="move.product_uom_qty"/>
+                                            <span t-field="move.product_uom"/>
+                                        </td>
+                                        <!--                                        <td>-->
+                                        <!--                                            <span t-field="move.price_unit_move"/>-->
+                                        <!--                                        </td>-->
+                                        <!--                                        <td>-->
+                                        <!--                                            <span t-field="move.price_subtotal_move"/>-->
+                                        <!--                                        </td>-->
+                                        <td t-if="move.return_ratio">
+                                            <span t-field="move.return_ratio"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-sm mt48" t-if="o.move_line_ids and o.state=='done'">
+                                <t t-set="has_serial_number" t-value="o.move_line_ids.mapped('lot_id')"/>
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <strong>Product</strong>
+                                        </th>
+                                        <th name="lot_serial" t-if="has_serial_number"
+                                            groups="stock.group_lot_on_delivery_slip">
+                                            Lot/Serial Number
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>Quantity</strong>
+                                        </th>
+
+                                        <!--                                        <th>-->
+                                        <!--                                            <strong>Price Unit</strong>-->
+                                        <!--                                        </th>-->
+                                        <!--                                        <th>-->
+                                        <!--                                            <strong>Subtotal</strong>-->
+                                        <!--                                        </th>-->
+                                        <th>
+                                            <strong>Vendor Quantity</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.move_line_ids" t-as="move_line">
+                                        <td>
+                                            <span t-field="move_line.product_id"/>
+                                            <p t-if="o.picking_type_code == 'outgoing'">
+                                                <span t-field="move_line.product_id.sudo().description_pickingout"/>
+                                            </p>
+                                            <p t-if="o.picking_type_code == 'incoming'">
+                                                <span t-field="move_line.product_id.sudo().description_pickingin"/>
+                                            </p>
+                                        </td>
+                                        <td t-if="has_serial_number and move_line.lot_name"
+                                            groups="stock.group_lot_on_delivery_slip">
+                                            <span t-field="move_line.lot_name"/>
+                                        </td>
+                                        <td t-elif="has_serial_number" groups="stock.group_lot_on_delivery_slip">
+                                            <span t-field="move_line.lot_id.name"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="move_line.qty_done"/>
+                                            <span t-field="move_line.product_uom_id"/>
+                                        </td>
+                                        <!--                                        <td>-->
+                                        <!--                                            <span t-field="move_line.price_unit_move"/>-->
+                                        <!--                                        </td>-->
+                                        <!--                                        <td>-->
+                                        <!--                                            <span t-field="move_line.price_subtotal_move"/>-->
+                                        <!--                                        </td>-->
+                                        <td t-if="move_line.return_ratio">
+                                            <span t-field="move_line.return_ratio"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-center" dir="rtl" >
+                                <br/><br/><br/>
+                                <table width="100%">
+
+                                    <tr>
+                                        <th>توقيع مسئول الاستلام</th>
+                                        <th>توقيع مشرف المخزن</th>
+<!--                                        <th>توقيع المحاسب</th>-->
+<!--                                        <th>توقيع المدير المالي</th>-->
+                                    </tr>
+
+
+                                </table>
+                                <br/>
+                                <br/>
+                                <table width="100%">
+                                    <tr>
+                                        <td>
+                                            <h6>
+                                                --------------------------
+                                            </h6>
+                                        </td>
+                                        <td>
+                                            <h6>
+                                                --------------------------
+                                            </h6>
+                                        </td>
+<!--                                        <td>-->
+<!--                                            <h6>-->
+<!--                                                &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--                                            </h6>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <h6>-->
+<!--                                                &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--                                            </h6>-->
+<!--                                        </td>-->
+
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <p>
+                                <t t-if="o.backorder_ids and o.backorder_ids.filtered(lambda x: x.state not in ('done', 'cancel'))">
+                                    All items couldn't be shipped, the remaining ones will be shipped as soon as they
+                                    become
+                                    available.
+                                </t>
+                            </p>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <!--        <template id="stock_return_bulx_report_template">-->
+        <!--                    <t t-call="web.html_container">-->
+        <!--                        <t t-foreach="docs" t-as="o">-->
+        <!--                            <t t-call="web.internal_layout">-->
+        <!--                                <div class="page">-->
+        <!--                                    <style type="text/css">-->
+        <!--                                        table.supplier {-->
+        <!--                                        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;-->
+        <!--                                        border-collapse: collapse;-->
+        <!--                                        width: 400px;-->
+        <!--                                        text-align : center;-->
+        <!--                                        margin :auto;-->
+
+        <!--                                        }-->
+
+        <!--                                        table.supplier td, table.supplier th {-->
+        <!--                                        border: 1px solid #ddd;-->
+        <!--                                        padding: 8px;-->
+        <!--                                        text-align : center;-->
+        <!--        &lt;!&ndash;                                height: 400px;&ndash;&gt;-->
+
+        <!--                                        }-->
+
+        <!--                                        table.supplier tr:nth-child(even){background-color:-->
+        <!--                                        #ffffff;}-->
+
+        <!--                                        table.supplier tr:hover {background-color: #ddd;}-->
+
+        <!--                                        table.supplier th {-->
+        <!--                                        padding-top: 12px;-->
+        <!--                                        padding-bottom: 12px;-->
+        <!--                                        text-align: left;-->
+        <!--                                        background-color: #806991 ;-->
+        <!--                                        color: white;-->
+        <!--                                        text-align : center;-->
+
+        <!--                                        }-->
+        <!--                                    </style>-->
+
+
+        <!--        &lt;!&ndash;                            <div margin="0 auto" padding-top="0">&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                <span width="30%" style="border: 1px solid #ddd;" align="center">&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                    <h3>Lots/Serial Numbers</h3>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                </span>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                            </div>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                            <br/>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                            <br/>&ndash;&gt;-->
+        <!--                                    <div class="text-center" >-->
+        <!--                                        <table width="50%" class="supplier">-->
+        <!--                                            <thead>-->
+        <!--        &lt;!&ndash;                                        <tr>&ndash;&gt;-->
+        <!--        &lt;!&ndash;&lt;!&ndash;                                            <th>Product</th>&ndash;&gt;&ndash;&gt;-->
+        <!--        &lt;!&ndash;&lt;!&ndash;                                            <th>Brand</th>&ndash;&gt;&ndash;&gt;-->
+        <!--        &lt;!&ndash;&lt;!&ndash;                                            <th>Category</th>&ndash;&gt;&ndash;&gt;-->
+        <!--        &lt;!&ndash;&lt;!&ndash;                                            <th>Lot/Serial Number</th>&ndash;&gt;&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                            <th>Lot/Serial Number</th>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                        </tr>&ndash;&gt;-->
+        <!--                                            </thead>-->
+        <!--                                            <tbody>-->
+        <!--                                                <tr t-foreach='o.move_line_ids' t-as='line'>-->
+        <!--        &lt;!&ndash;                                            <td >&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                                <h5>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                                    <field t-field="line.product_id"/>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                                </h5>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                            </td>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                            <td>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                                <h6>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                                    <field t-field="line.product_id.product_brand_id.name"/>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                                </h6>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                            </td>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                            <td>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                                <h6>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                                    <field t-field="line.product_id.categ_id.name"/>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                                </h6>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                            </td>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                            <td>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                                <h6>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                                    <field t-field="line.lot_name"/>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                                </h6>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                            </td>&ndash;&gt;-->
+        <!--                                                     <t t-if="line.lot_name">-->
+        <!--                                                    <td class="text-center align-middle" style="height: 6rem;">-->
+
+        <!--                                                            <span t-field="line.product_id"/>-->
+        <!--                                                            <img alt="Barcode" t-if="len(line.lot_name) == 13"-->
+        <!--                                                                 t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', quote_plus(line.lot_name or ''), 600, 150)"-->
+        <!--                                                                 style="width:100%;height:4rem;"/>-->
+        <!--                                                            <img alt="Lot/serial_number" t-elif="len(line.lot_name) == 8"-->
+        <!--                                                                 t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN8', quote_plus(line.lot_name or ''), 600, 150)"-->
+        <!--                                                                 style="width:100%;height:4rem;"/>-->
+        <!--                                                            <img alt="Lot/serial_number" t-else=""-->
+        <!--                                                                 t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', quote_plus(line.lot_name or ''), 600, 150)"-->
+        <!--                                                                 style="width:100%;height:4rem"/>-->
+        <!--                                                            <span t-field="line.lot_name"/><br/>-->
+        <!--                                                            <span t-field="line.product_id.product_brand_id.name"/><br/>-->
+        <!--                                                            <span t-field="line.product_id.categ_id.name"/><br/>-->
+        <!--        &lt;!&ndash;                                                    <span t-field="line.product_id.description"/><br/>&ndash;&gt;-->
+
+        <!--        &lt;!&ndash;                                                <t t-else="">&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                                    <span class="text-muted">No barcode available</span>&ndash;&gt;-->
+        <!--        &lt;!&ndash;                                                </t>&ndash;&gt;-->
+        <!--                                                    </td>-->
+        <!--                                                     </t>-->
+        <!--                                                </tr>-->
+        <!--                                            </tbody>-->
+        <!--                                        </table>-->
+        <!--                                    </div>-->
+        <!--                                </div>-->
+        <!--                            </t>-->
+        <!--                        </t>-->
+        <!--                    </t>-->
+        <!--                </template>-->
+    </data>
+</odoo>

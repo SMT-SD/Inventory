@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+<!--    <data>-->
+
+<!--<<<<<<< HEAD-->
+<!--        <record id="sale_order_blux_form_view" model="ir.ui.view">-->
+<!--            <field name="name">sale_order_blux_form_view</field>-->
+<!--            <field name="model">sale.order</field>-->
+<!--            <field name="inherit_id" ref="sale.view_order_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='sale_order_template_id']" position="after">-->
+<!--                    <field name="order_status_in" />-->
+<!--                    <field name="bulx_id"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--&lt;!&ndash;        </record>&ndash;&gt;-->
+<!--=======-->
+<!--        <record id="sale_order_blux_form_view" model="ir.ui.view">-->
+<!--            <field name="name">sale_order_blux_form_view</field>-->
+<!--            <field name="model">sale.order</field>-->
+<!--            <field name="inherit_id" ref="sale.view_order_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='sale_order_template_id']" position="after">-->
+<!--                    <field name="order_status_in" />-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+<!--&gt;>>>>>> a092dedef1a1fff2b832d3b636e3621bfd349075-->
+<!--    </data>-->
+</odoo>

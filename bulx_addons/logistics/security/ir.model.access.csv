@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+logistic_status_access,logistic_status_access,model_logistic_status,logistic_tracking_group,1,1,1,1
+hub_hub_access,hub_hub_access,model_hub_hub,logistic_tracking_group,1,1,1,1
+moves_lines_logistic_access,moves_lines_logistic_access,model_moves_lines_logistic,logistic_tracking_group,1,1,1,1
+hub_bridge_access,hub_bridge_access,model_hub_bridge,logistic_tracking_group,1,1,1,1
+
+
+

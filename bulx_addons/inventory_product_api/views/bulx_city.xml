@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="bulx_city_search_form_view" model="ir.ui.view">
+        <field name="name">bulx.city.search.form</field>
+        <field name="model">bulx.city</field>
+        <field name="arch" type="xml">
+            <search string="Bulx City">
+                <field name="name"/>
+                <field name="arabic_name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_bulx_city_form" model="ir.ui.view">
+        <field name="name">bulx.city.form</field>
+        <field name="model">bulx.city</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="arabic_name"/>
+                        </group>
+                    </group>
+                    <group string="Bulx ID">
+                        <field name="bulx_id" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_bulx_city_tree" model="ir.ui.view">
+        <field name="name">bulx.city.tree</field>
+        <field name="model">bulx.city</field>
+        <field name="arch" type="xml">
+            <tree string="Bulx City">
+                <field name="name"/>
+                <field name="arabic_name"/>
+                <field name="bulx_id" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_bulx_city">
+        <field name="name">City</field>
+        <field name="res_model">bulx.city</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem  name="Bulx City"
+            id="menu_bulx_city"
+            action="action_bulx_city"
+            parent="sale.prod_config_main"/>
+
+    <record id="bulx_region_search_form_view" model="ir.ui.view">
+        <field name="name">bulx.region.search.form</field>
+        <field name="model">bulx.region</field>
+        <field name="arch" type="xml">
+            <search string="Bulx Region">
+                <field name="name"/>
+                <field name="arabic_name"/>
+                <field name="city_id"/>
+                <field name="is_active"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_bulx_region_form" model="ir.ui.view">
+        <field name="name">bulx.region.form</field>
+        <field name="model">bulx.region</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="arabic_name"/>
+                        </group>
+                    </group>
+                    <group string="Bulx ID">
+                        <field name="city_id"/>
+                        <field name="is_active"/>
+                        <field name="bulx_id" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_bulx_region_tree" model="ir.ui.view">
+        <field name="name">bulx.region.tree</field>
+        <field name="model">bulx.region</field>
+        <field name="arch" type="xml">
+            <tree string="Bulx Region">
+                <field name="name"/>
+                <field name="arabic_name"/>
+                <field name="city_id"/>
+                <field name="is_active"/>
+                <field name="bulx_id" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_bulx_region">
+        <field name="name">Region</field>
+        <field name="res_model">bulx.region</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Bulx Region"  id="menu_bulx_region"  action="action_bulx_region" parent="sale.prod_config_main"/>
+</odoo>

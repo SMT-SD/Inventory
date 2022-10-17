@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_res_city,bulx_city_access,model_bulx_city,,1,1,1,1
+access_res_region,bulx_region_access,model_bulx_region,,1,1,1,1
+access_res_region_address,bulx_address_access,model_bulx_address,,1,1,1,1
+
+
+
+
+
+
+
+

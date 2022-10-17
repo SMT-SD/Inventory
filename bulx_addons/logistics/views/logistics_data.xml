@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="logistic_status_form_view" model="ir.ui.view">
+            <field name="name">logistic_status_form_view</field>
+            <field name="model">logistic.status</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_start" type="object"
+                                string="Start Delivery" states="handover_to_da" class="btn-primary"/>
+
+                        <button name="action_success" type="object"
+                                string="Success Delivery" states="in_delivery_progress" class="btn-primary"/>
+
+                        <button name="action_fail" type="object"
+                                string="Failed Delivery" states="in_delivery_progress" class="btn-primary"/>
+                        <button name="action_partially" type="object"
+                                string="Partially Delivery" states="in_delivery_progress" class="btn-primary"/>
+
+                        <button name="action_confirm" type="object"
+                                string="Confirm Delivery" states="in_delivery_progress_success" class="btn-primary"/>
+
+                         <button name="action_view_payment" type="object"
+                                string="Register Payment" states="delivered,partial_delivery" class="btn-primary"/>
+
+
+                        <field name="state" widget="statusbar" clickable="1"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" domain="[('is_da','=',True)]" required="1"/>
+                                <field name="failed_delivery_reasons"
+                                       attrs="{'required':[('state','=','in_delivery_progress_failed')],'invisible':[('state','!=','in_delivery_progress_failed')]}"/>
+                                <field name="rejection_reasons"
+                                       attrs="{'required':[('failed_delivery_reasons','=','rejection')],'invisible':[('failed_delivery_reasons','!=','rejection')]}"/>
+
+                                <field name="scheduling_date"
+                                       attrs="{'required':[('failed_delivery_reasons','=','schedule')],'invisible':[('failed_delivery_reasons','!=','schedule')]}"/>
+
+                                 <field name="scheduling_date3" invisible="1" />
+                            </group>
+                            <group>
+                                <field name="hub"/>
+                                <field name="amount_delivered"
+                                       attrs="{'required':[('state','=','delivered')],'invisible':[('state','!=','delivered')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Lines" name="logistic_moves_lines">
+                                <field name="line_moves" widget="one2many_list" force_save="1">
+                                    <tree editable="bottom">
+                                        <field name="product_id" force_save="1"/>
+                                        <field name="product_uom_id" force_save="1"/>
+                                        <field name="qty_done" force_save="1"/>
+                                        <field name="product_uom_qty" force_save="1"/>
+                                    </tree>
+                                </field>
+                                <!--                                <field name="move_line_ids_without_package" attrs="{'readonly': ['|', '|', ('show_operations', '=', False), ('state', '=', 'cancel'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}" context="{'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id}">-->
+                                <!--                                <tree editable="bottom" decoration-muted="(state == 'done' and is_locked == True)" decoration-danger="qty_done&gt;product_uom_qty and state!='done'" decoration-success="qty_done==product_uom_qty and state!='done' and not result_package_id">-->
+                                <!--                                    <field name="product_id" required="1" attrs="{'readonly': ['|', ('state', '=', 'done'), ('move_id', '!=', False)]}"/>-->
+                                <!--                                    <field name="move_id" invisible="1"/>-->
+                                <!--                                    <field name="product_uom_id" force_save="1" attrs="{'readonly': [('state', '!=', 'draft')]}" groups="uom.group_uom"/>-->
+                                <!--                                    <field name="location_id" attrs="{'column_invisible': [('parent.picking_type_code', '=', 'incoming')]}" groups="stock.group_stock_multi_locations" domain="[('id', 'child_of', parent.location_id)]"/>-->
+                                <!--                                    <field name="location_dest_id" attrs="{'column_invisible': [('parent.picking_type_code', '=', 'outgoing')]}" groups="stock.group_stock_multi_locations" domain="[('id', 'child_of', parent.location_dest_id)]"/>-->
+                                <!--                                    <field name="package_id" groups="stock.group_tracking_lot" domain="[('location_id', '=', location_id)]"/>-->
+                                <!--                                    <field name="result_package_id" groups="stock.group_tracking_lot" domain="['|', '|', ('location_id', '=', False), ('location_id', '=', location_dest_id), ('id', '=', package_id)]"/>-->
+                                <!--                                    <field name="lots_visible" invisible="1"/>-->
+                                <!--                                    <field name="owner_id" groups="stock.group_tracking_owner"/>-->
+                                <!--                                    <field name="state" invisible="1"/>-->
+                                <!--                                    <field name="lot_id" groups="stock.group_production_lot" attrs="{'column_invisible': [('parent.show_lots_text', '=', True)], 'invisible': [('lots_visible', '=', False)]}" domain="[('product_id', '=', product_id)]" context="{'default_product_id': product_id}"/>-->
+                                <!--                                    <field name="lot_name" groups="stock.group_production_lot" attrs="{'column_invisible': [('parent.show_lots_text', '=', False)], 'invisible': [('lots_visible', '=', False)]}" context="{'default_product_id': product_id}"/>-->
+                                <!--                                    <field name="is_initial_demand_editable" invisible="1"/>-->
+                                <!--                                    <field name="product_uom_qty" readonly="1"/>-->
+                                <!--                                    <field name="is_locked" invisible="1"/>-->
+                                <!--                                    <field name="qty_done" attrs="{'readonly': [('state', 'in', ('done', 'cancel')), ('is_locked', '=', True)]}" force_save="1"/>-->
+                                <!--                                </tree>-->
+                                <!--                            </field>-->
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="logistic_status_tree_view" model="ir.ui.view">
+            <field name="name">logistic_status_tree_view</field>
+            <field name="model">logistic.status</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <!--                    <field name="no_of_days"/>-->
+                    <!--                    <field name="required_date"/>-->
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_logistic_status" model="ir.actions.act_window">
+            <field name="name">Logistics Progress</field>
+            <field name="res_model">logistic.status</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem id="menu_logistics_root"
+                  name="Logistics"
+        />
+        <menuitem id="menu_logistics_data_progress"
+                  name="Logistics"
+                  action="action_logistic_status"
+                  parent="menu_logistics_root"
+                  sequence="1"
+
+        />
+    </data>
+</odoo>

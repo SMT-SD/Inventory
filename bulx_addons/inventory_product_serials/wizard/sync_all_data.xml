@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+
+        <record id="sync_all_data_form" model="ir.ui.view">
+            <field name="name">sync.all.data</field>
+            <field name="model">sync.all.data</field>
+            <field name="arch" type="xml">
+                <form string="Sync All Products">
+                    <group>
+                        <field name="response_data" readonly="1" nolabel="1"/>
+                        <!--                        <field name="qty_updated" />-->
+                        <!--                        <field name="update_products" widget="boolean_toggle"/>-->
+                    </group>
+                    <footer>
+                        <button string="YES" class="btn-primary" type="object"
+                                    name="get_products_list"/>
+                        <button string="NO" special="cancel" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_sync_all_data_wizard" model="ir.actions.act_window">
+            <field name="name">Sync All Data</field>
+            <field name="res_model">sync.all.data</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="sync_all_data_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="sync_all_data_main_menu" name="Sync Qyt" parent="stock.menu_stock_root"
+                  sequence="50"/>
+
+        <menuitem id="sync_all_data_menu" name="Sync ALl Quantity"
+                  parent="inventory_product_serials.sync_all_data_main_menu"
+                  sequence="10" action="action_sync_all_data_wizard"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <report id="lots_serial_numbers_report"
+                model="stock.move"
+                string="Serial Numbers"
+                report_type="csv"
+                name="inventory_product_serials.lots_serial_number"
+                file="inventory_product_serials.lots_serial_number"
+                attachment_use="False"
+
+
+        />
+    </data>
+</odoo>

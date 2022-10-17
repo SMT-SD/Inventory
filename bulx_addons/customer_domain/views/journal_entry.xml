@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+<!--        <record id="logistics_res_partner_inherit_form_view" model="ir.ui.view">-->
+<!--            <field name="name">logistics_res_partner_inherit_form_view</field>-->
+<!--            <field name="model">account.move</field>-->
+<!--            <field name="inherit_id" ref="base.view_partner_form"/>-->
+<!--            <field name="arch" type="xml">-->
+
+<!--                <xpath expr="//notebook/page[@name='sales_purchases']/group/group[@name='sale']/field[@name='customer']" position="after">-->
+
+<!--                   <field name="is_da" />-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</odoo>
