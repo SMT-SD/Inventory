@@ -128,3 +128,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 sh_pdc
+bulx_addons/sh_pdc
